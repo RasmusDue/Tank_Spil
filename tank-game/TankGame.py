@@ -680,7 +680,7 @@ def gameLoop():
         power(f_power)
 
         barrier(xloc, ranHeight, bar_width)
-        game_layout_display.fill(green, rect=[0, display_height - grnd_height, display_width, grnd_height])
+        game_layout_display.fill(blue, rect=[0, display_height - grnd_height, display_width, grnd_height])
         pygame.display.update()
 
         if p_health < 1:
