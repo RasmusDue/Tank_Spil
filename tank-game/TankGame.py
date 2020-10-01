@@ -10,9 +10,9 @@ game_layout_display = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('Tanks Game - Brought To You By Itsourcecode.com')
 
 try:
-    Resources = pygame.image.load("resources/game_background.png")
+    Resources = pygame.image.load("resources/PygameIcon.png")
 except:
-    Resources = pygame.image.load("/Users/OliverHolbech/Desktop/Pygame/Tank_Spil/tank-game/resources/game_background.png")
+    Resources = pygame.image.load("/Users/OliverHolbech/Desktop/Pygame/Tank_Spil/tank-game/resources/PygameIcon.png")
 pygame.display.set_icon(Resources)
 
 
