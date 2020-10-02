@@ -3,6 +3,7 @@ import random
 from object import tanks
 from object import ball
 
+
 #setup pygame
 pygame.init()
 display_width = 1920
@@ -108,6 +109,7 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             done = True
+
     game_loop()
 #pygame kommandoer til at vise grafikken og opdatere 60 gange i sekundet.
     pygame.display.update()
