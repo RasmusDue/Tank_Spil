@@ -16,12 +16,17 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 blue = (0, 0, 255)
 red = (200, 0 , 0)
-
 p1 = [400,400]
-
 p2 = [600,200]
 speed = 4
 controls1 = ["K_LEFT", "K_RIGHT", "K_UP", "K_DOWN"]
+
+#images
+tank1 = pygame.image.load('blaa_tank.png')
+
+#pygame.transform.scale(tank1, (45, 45))
+tank2 = pygame.image.load('rod_tank.png')
+
 c1 = circle(blue, p1) #, controls1)
 c2 = circle(red, p2)
 
@@ -61,9 +66,12 @@ while not done:
         c2.position[1] += c2.speed
 
     display.fill((0,0,0))
-    c1.update(display)
+    c1.update(display, tank1)
     #c1.move()
-    c2.update(display)
+    c2.update(display, tank2)
+
+    #display.blit(pygame.transform.scale(tank1, (c1.size, c1.size)), (c1.position[0], c1.position[1]))
+    #display.blit(tank1, [c1.position[0], c1.position[1] - 5])
 
 
 

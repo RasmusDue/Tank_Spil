@@ -6,7 +6,7 @@ pygame.init()
 
 class circle():
     def __init__(self, color, position): # controls):
-        self.size = 25
+        self.size = 100
         self.color = color
         self.position = position
         #self.controls = controls
@@ -29,9 +29,9 @@ class circle():
     #     if keys[pygame.con4] and self.position[1]<575:
     #         self.postiton[3] += self.speed
 
-    def update(self, frame): # position):
+    def update(self, frame, tank): # position):
         #self.position = position
-        pygame.draw.circle(frame, self.color, (self.position[0], self.position[1]), self.size)
-
+        #pygame.draw.circle(frame, self.color, (self.position[0], self.position[1]), self.size)
+        frame.blit(pygame.transform.scale(tank, (self.size, self.size)), (self.position[0], self.position[1]))
 # controls1 = ["K_LEFT", "K_RIGHT", "K_UP", "K_DOWN"]
 # print(controls1[0])
