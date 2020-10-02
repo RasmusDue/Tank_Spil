@@ -6,7 +6,7 @@ pygame.init()
 
 class tanks():
     def __init__(self, color, position, tank):
-        self.size = 100
+        self.size = 60
         self.color = color
         self.position = position
         self.speed = 4
