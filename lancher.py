@@ -51,11 +51,7 @@ b = ball(pball, ball1)
 
 
 #Main game loop
-while not done:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-            done = True
-
+def game_loop():
     keys = pygame.key.get_pressed()
 #circle 1
     if keys[pygame.K_LEFT] and c1.position[0]>0:
@@ -108,10 +104,11 @@ while not done:
 
     b.update(display)
 
-
-
-
-
+while not done:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            done = True
+    game_loop()
 #pygame kommandoer til at vise grafikken og opdatere 60 gange i sekundet.
     pygame.display.update()
     clock.tick(60)
