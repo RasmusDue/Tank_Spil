@@ -82,15 +82,12 @@ while not done:
 
     display.fill((0,0,0))
     c1.update(display)
-    #c1.move()
     c2.update(display)
 
 
 
 
 
-        #pygame kommandoer til at vise grafikken og opdatere 60 gange i sekundet.
-    #pygame.display.flip()
-
+#pygame kommandoer til at vise grafikken og opdatere 60 gange i sekundet.
     pygame.display.update()
     clock.tick(60)

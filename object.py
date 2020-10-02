@@ -11,8 +11,8 @@ class tanks():
         self.position = position
         self.speed = 4
         self.angle = 0
-        self.png = pygame.transform.scale(tank, (self.size, self.size))
+        self.tank_png = pygame.transform.scale(tank, (self.size, self.size))
 
     def update(self, frame):
-        tank_rotate = pygame.transform.rotate(self.png,self.angle)
+        tank_rotate = pygame.transform.rotate(self.tank_png,self.angle)
         frame.blit(tank_rotate, (self.position[0], self.position[1]))
