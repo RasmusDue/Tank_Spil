@@ -1,5 +1,5 @@
 import pygame
-from object import circle
+from object import tanks
 
 #setup pygame
 pygame.init()
@@ -18,7 +18,6 @@ blue = (0, 0, 255)
 red = (200, 0 , 0)
 p1 = [400,400]
 p2 = [600,200]
-speed = 4
 controls1 = ["K_LEFT", "K_RIGHT", "K_UP", "K_DOWN"]
 
 #images
@@ -27,8 +26,9 @@ tank1 = pygame.image.load('blaa_tank.png')
 #pygame.transform.scale(tank1, (45, 45))
 tank2 = pygame.image.load('rod_tank.png')
 
-c1 = circle(blue, p1) #, controls1)
-c2 = circle(red, p2)
+#create tank´s
+c1 = tanks(blue, p1, tank1)
+c2 = tanks(red, p2, tank2)
 
 #Main game loop
 while not done:
@@ -38,16 +38,16 @@ while not done:
 
     keys = pygame.key.get_pressed()
 #circle 1
-    if keys[pygame.K_LEFT] and c1.position[0]>25:
+    if keys[pygame.K_LEFT] and c1.position[0]>0:
         c1.position[0] -= c1.speed
         c1.angle = 90
-    if keys[pygame.K_RIGHT] and c1.position[0]<775:
+    if keys[pygame.K_RIGHT] and c1.position[0]<700:
         c1.position[0] += c1.speed
         c1.angle = -90
-    if keys[pygame.K_UP] and c1.position[1]>25:
+    if keys[pygame.K_UP] and c1.position[1]>0:
         c1.position[1] -= c1.speed
         c1.angle = 0
-    if keys[pygame.K_DOWN] and c1.position[1]<575:
+    if keys[pygame.K_DOWN] and c1.position[1]<500:
         c1.position[1] += c1.speed
         c1.angle = 180
     if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
@@ -59,19 +59,31 @@ while not done:
     if keys[pygame.K_RIGHT] and keys[pygame.K_UP]:
         c1.angle = -45
 #circle 2
-    if keys[pygame.K_a] and c2.position[0]>25:
+    if keys[pygame.K_a] and c2.position[0]>0:
         c2.position[0] -= c2.speed
-    if keys[pygame.K_d] and c2.position[0]<775:
+        c2.angle = 90
+    if keys[pygame.K_d] and c2.position[0]<700:
         c2.position[0] += c2.speed
-    if keys[pygame.K_w] and c2.position[1]>25:
+        c2.angle = -90
+    if keys[pygame.K_w] and c2.position[1]>0:
         c2.position[1] -= c2.speed
-    if keys[pygame.K_s] and c2.position[1]<575:
+        c2.angle = 0
+    if keys[pygame.K_s] and c2.position[1]<500:
         c2.position[1] += c2.speed
+        c2.angle = 180
+    if keys[pygame.K_a] and keys[pygame.K_w]:
+        c2.angle = 45
+    if keys[pygame.K_a] and keys[pygame.K_s]:
+        c2.angle = 135
+    if keys[pygame.K_d] and keys[pygame.K_s]:
+        c2.angle = -135
+    if keys[pygame.K_d] and keys[pygame.K_w]:
+        c2.angle = -45
 
     display.fill((0,0,0))
-    c1.update(display, tank1)
+    c1.update(display)
     #c1.move()
-    c2.update(display, tank2)
+    c2.update(display)
 
 
 
