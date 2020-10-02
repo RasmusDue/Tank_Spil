@@ -11,6 +11,7 @@ class circle():
         self.position = position
         #self.controls = controls
         self.speed = 4
+        self.angle = 0
 
     # def move(self):
     #     keys = pygame.key.get_pressed()
@@ -32,6 +33,9 @@ class circle():
     def update(self, frame, tank): # position):
         #self.position = position
         #pygame.draw.circle(frame, self.color, (self.position[0], self.position[1]), self.size)
-        frame.blit(pygame.transform.scale(tank, (self.size, self.size)), (self.position[0], self.position[1]))
+        tank_rotate = pygame.transform.rotate(tank,self.angle)
+        tank_png = pygame.transform.scale(tank_rotate, (self.size, self.size))
+        frame.blit(tank_png, (self.position[0], self.position[1]))
+
 # controls1 = ["K_LEFT", "K_RIGHT", "K_UP", "K_DOWN"]
 # print(controls1[0])
