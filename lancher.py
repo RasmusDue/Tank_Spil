@@ -5,7 +5,7 @@ from object import tanks
 pygame.init()
 display_width = 800
 display_height = 600
-display = pygame.display.set_mode((display_width, display_height))
+display = pygame.display.set_mode((display_width, display_height), pygame.FULLSCREEN)
 pygame.display.set_caption('Tanks Game - Brought To You By Oliver & Rasmus')
 
 
