@@ -20,11 +20,23 @@ def menu():
     mouse = pygame.mouse.get_pos()
     print(mouse)
     if 1050+200> mouse[0] > 1050 and 300+75 > mouse[1] > 300:
-        pygame.draw.rect(display, (200,200,200), (1050,300,200,75))
+        pygame.draw.rect(display, (200,200,200), (1050,300,200,100))
 
     #else:
         #pygame.draw.rect(display, (250,250,250), (1050,300,200,75),0)
     display.blit(myfont.render("PLAY", 100, (255,255,255)), (1050,300+20))
+    display.blit(myfont.render("QUIT", 100, (255,255,255)), (1050,500+20))
+
+
+    if 1050+200> mouse[0] > 1050 and 500+75 > mouse[1] > 500:
+        pygame.draw.rect(display, (200,200,200), (1050,500,200,100))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pygame.quit()
+
+    #else:
+        #pygame.draw.rect(display, (250,250,250), (1050,300,200,75),0)
+
+
 
 
 
