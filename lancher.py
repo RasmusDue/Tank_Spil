@@ -6,8 +6,8 @@ from object import ball
 
 #setup pygame
 pygame.init()
-display_width = 1920
-display_height = 1080
+display_width = 1280
+display_height = 720
 display = pygame.display.set_mode((display_width, display_height), pygame.FULLSCREEN)
 pygame.display.set_caption('Tanks Game - Brought To You By Oliver & Rasmus')
 
@@ -26,7 +26,9 @@ controls1 = ["K_LEFT", "K_RIGHT", "K_UP", "K_DOWN"]
 
 #images
 map1 = pygame.image.load('background1(1).png')
+map1 = pygame.transform.scale(map1, (1280,720))
 map2 = pygame.image.load('background 2.png')
+map2 = pygame.transform.scale(map2, (1280,720))
 map = []
 tank1 = pygame.image.load('blaa_tank.png')
 tank2 = pygame.image.load('rod_tank.png')
