@@ -39,8 +39,6 @@ ball1 = pygame.image.load('bold.png')
 
 #game
 game = Game()
-#tanks = Tanks()
-#ball = Ball()
 game.tank1 = tank_png1
 game.tank2 = tank_png2
 
@@ -48,12 +46,15 @@ game.tank2 = tank_png2
 random_map = random.randint(0,1)
 print(random_map)
 if random_map == 0:
-    map = map1
+    game.map = map1
 elif random_map == 1:
-    map = map2
+    game.map = map2
 
 #create objects
 #b = ball(pball, ball1)
+
+
+#Game Menu
 
 
 #Main game loop
@@ -62,16 +63,16 @@ def game_loop():
 #circle 1
     if keys[pygame.K_LEFT] and game.p1[0]>0:
         game.p1[0] -= 8
-        #c1.angle = 90
+        game.angle1 = 90
     if keys[pygame.K_RIGHT] and game.p1[0]<display_width-100:
         game.p1[0] += 8
-        #c1.angle = -90
+        game.angle1 = -90
     if keys[pygame.K_UP] and game.p1[1]>0:
         game.p1[1] -= 8
-        #c1.angle = 0
+        game.angle1 = 0
     if keys[pygame.K_DOWN] and game.p1[1]<display_height-100:
         game.p1[1] += 8
-        #c1.angle = 180
+        game.angle1 = 180
     # if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
     #     c1.angle = 45
     # if keys[pygame.K_LEFT] and keys[pygame.K_DOWN]:
@@ -83,16 +84,16 @@ def game_loop():
 #circle 2
     if keys[pygame.K_a] and game.p2[0]>0:
         game.p2[0] -= 8
-        #c1.angle = 90
+        game.angle2 = 90
     if keys[pygame.K_d] and game.p2[0]<display_width-100:
         game.p2[0] += 8
-        #c1.angle = -90
+        game.angle2 = -90
     if keys[pygame.K_w] and game.p2[1]>0:
         game.p2[1] -= 8
-        #c1.angle = 0
+        game.angle2 = 0
     if keys[pygame.K_s] and game.p2[1]<display_height-100:
         game.p2[1] += 8
-        #c1.angle = 180
+        game.angle2 = 180
     # if keys[pygame.K_a] and keys[pygame.K_w]:
     #     c2.angle = 45
     # if keys[pygame.K_a] and keys[pygame.K_s]:
@@ -102,10 +103,11 @@ def game_loop():
     # if keys[pygame.K_d] and keys[pygame.K_w]:
     #     c2.angle = -45
 
-
-    display.blit(map, (0, 0))
-    display.blit(game.tank1, (game.p1[0], game.p1[1]))
-    display.blit(game.tank2, (game.p2[0], game.p2[1]))
+    tank1_rotate = pygame.transform.rotate(game.tank1,game.angle1)
+    tank2_rotate = pygame.transform.rotate(game.tank2,game.angle2)
+    display.blit(game.map, (0, 0))
+    display.blit(tank1_rotate, (game.p1[0], game.p1[1]))
+    display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
     #display.fill((0,0,0))
     #c1.update(display)
     #c2.update(display)

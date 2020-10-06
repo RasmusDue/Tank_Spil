@@ -9,10 +9,12 @@ class Game():
         self.tilstand = 1
         self.blue = (0, 0, 255)
         self.red = (200, 0 , 0)
-        self.p1 = [1150,720/2-50]
-        self.p2 = [50,720/2-50]
+        self.p1 = [1135,720/2-50]
+        self.p2 = [45,720/2-50]
         self.tank1 = []
         self.tank2 = []
+        self.angle1 = 90
+        self.angle2 = -90
         self.map = []
         self.c1 = Tanks(self.blue, self.p1, self.tank1)
         self.c2 = Tanks(self.red, self.p2, self.tank2)
@@ -28,9 +30,7 @@ class Tanks():
         self.angle = 0
         self.tank_png = tank
 
-    def update(self, frame):
-        #tank_rotate = pygame.transform.rotate(self.tank_png,self.angle)
-        #frame.blit(tank_rotate, (self.position[0], self.position[1]))
+    def update(self):
         pass
 
 
