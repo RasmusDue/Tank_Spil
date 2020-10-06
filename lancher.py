@@ -1,7 +1,7 @@
 import pygame
 import random
 from object import Game
-from object import Tanks
+from object import Tank
 from object import Ball
 
 import pygame_menu
@@ -17,14 +17,12 @@ pygame.display.set_caption('Tanks Game - Brought To You By Oliver & Rasmus')
 # Initialize game variables
 done = False
 clock = pygame.time.Clock()
+myfont = pygame.font.SysFont("arial", 68)
 white = (255, 255, 255)
 black = (0, 0, 0)
 blue = (0, 0, 255)
 red = (200, 0 , 0)
-p1 = [1150,1280/2-50]
-p2 = [50,720/2-50]
-pball = [display_width/2-100,display_height/2-50]
-myfont = pygame.font.SysFont("arial", 68)
+
 
 #images
 baggrund_menu = pygame.image.load('Menu_wallpaper.png')
@@ -39,12 +37,14 @@ tank1 = pygame.image.load('blaa_tank.png')
 tank_png1 = pygame.transform.scale(tank1, (100, 100))
 tank2 = pygame.image.load('rod_tank.png')
 tank_png2 = pygame.transform.scale(tank2, (100, 100))
-ball1 = pygame.image.load('bold.png')
+ball = pygame.image.load('bold.png')
+ball_png = pygame.transform.scale(ball, (100, 100))
 
 #game
 game = Game()
 game.tank1 = tank_png1
 game.tank2 = tank_png2
+game.ball_png = ball_png
 
 #random map
 random_map = random.randint(0,1)
@@ -62,7 +62,7 @@ elif random_map == 1:
 def menu():
     display.blit(baggrund_menu,(0, 0))
     mouse = pygame.mouse.get_pos()
-    print(mouse)
+    #print(mouse)
     if 1050+200> mouse[0] > 1050 and 300+75 > mouse[1] > 300:
         pygame.draw.rect(display, (200,200,200), (1050,300,200,100))
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -95,14 +95,14 @@ def game_loop():
     if keys[pygame.K_DOWN] and game.p1[1]<display_height-100:
         game.p1[1] += 8
         game.angle1 = 180
-    # if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
-    #     c1.angle = 45
-    # if keys[pygame.K_LEFT] and keys[pygame.K_DOWN]:
-    #     c1.angle = 135
-    # if keys[pygame.K_RIGHT] and keys[pygame.K_DOWN]:
-    #     c1.angle = -135
-    # if keys[pygame.K_RIGHT] and keys[pygame.K_UP]:
-    #     c1.angle = -45
+    if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
+        game.angle1 = 45
+    if keys[pygame.K_LEFT] and keys[pygame.K_DOWN]:
+        game.angle1 = 135
+    if keys[pygame.K_RIGHT] and keys[pygame.K_DOWN]:
+        game.angle1 = -135
+    if keys[pygame.K_RIGHT] and keys[pygame.K_UP]:
+        game.angle1 = -45
     #tank 2
     if keys[pygame.K_a] and game.p2[0]>0:
         game.p2[0] -= 8
@@ -116,25 +116,22 @@ def game_loop():
     if keys[pygame.K_s] and game.p2[1]<display_height-100:
         game.p2[1] += 8
         game.angle2 = 180
-    # if keys[pygame.K_a] and keys[pygame.K_w]:
-    #     c2.angle = 45
-    # if keys[pygame.K_a] and keys[pygame.K_s]:
-    #     c2.angle = 135
-    # if keys[pygame.K_d] and keys[pygame.K_s]:
-    #     c2.angle = -135
-    # if keys[pygame.K_d] and keys[pygame.K_w]:
-    #     c2.angle = -45
+    if keys[pygame.K_a] and keys[pygame.K_w]:
+        game.angle2 = 45
+    if keys[pygame.K_a] and keys[pygame.K_s]:
+        game.angle2 = 135
+    if keys[pygame.K_d] and keys[pygame.K_s]:
+        game.angle2 = -135
+    if keys[pygame.K_d] and keys[pygame.K_w]:
+        game.angle2 = -45
 
     tank1_rotate = pygame.transform.rotate(game.tank1,game.angle1)
     tank2_rotate = pygame.transform.rotate(game.tank2,game.angle2)
     display.blit(game.map, (0, 0))
+    display.blit(myfont.render("{}:{}".format(game.score[0], game.score[1]), 100, white), (display_width/2-50,20))
     display.blit(tank1_rotate, (game.p1[0], game.p1[1]))
     display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
-    #display.fill((0,0,0))
-    #c1.update(display)
-    #c2.update(display)
-
-    #b.update(display)
+    display.blit(game.ball_png, (game.pball[0], game.pball[1]))
 
 while not done:
     for event in pygame.event.get():

@@ -1,12 +1,14 @@
 #import pygame
 import random
 
-#setup pygame
-
+#setup variables
+display_width = 1280
+display_height = 720
 
 class Game():
     def __init__(self):
         self.tilstand = 0
+        self.score = [0, 0]
         self.blue = (0, 0, 255)
         self.red = (200, 0 , 0)
         self.p1 = [1135,720/2-50]
@@ -16,12 +18,15 @@ class Game():
         self.angle1 = 90
         self.angle2 = -90
         self.map = []
-        self.c1 = Tanks(self.blue, self.p1, self.tank1)
-        self.c2 = Tanks(self.red, self.p2, self.tank2)
+        self.c1 = Tank(self.blue, self.p1, self.tank1)
+        self.c2 = Tank(self.red, self.p2, self.tank2)
+        self.pball = [display_width/2-60,display_height/2-50]
+        self.ball_png = []
+        self.ball = Ball(self.pball, self.ball_png)
 
 
 
-class Tanks():
+class Tank():
     def __init__(self, color, position, tank):
         self.size = 100
         self.color = color
