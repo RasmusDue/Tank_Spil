@@ -9,7 +9,7 @@ class Game():
         self.tilstand = 1
         self.blue = (0, 0, 255)
         self.red = (200, 0 , 0)
-        self.p1 = [1150,1280/2-50]
+        self.p1 = [1150,720/2-50]
         self.p2 = [50,720/2-50]
         self.tank1 = []
         self.tank2 = []

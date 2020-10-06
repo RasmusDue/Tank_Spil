@@ -60,18 +60,18 @@ elif random_map == 1:
 def game_loop():
     keys = pygame.key.get_pressed()
 #circle 1
-    # if keys[pygame.K_LEFT] and c1.position[0]>0:
-    #     c1.position[0] -= c1.speed
-    #     c1.angle = 90
-    # if keys[pygame.K_RIGHT] and c1.position[0]<display_width-c1.size:
-    #     c1.position[0] += c1.speed
-    #     c1.angle = -90
-    # if keys[pygame.K_UP] and c1.position[1]>0:
-    #     c1.position[1] -= c1.speed
-    #     c1.angle = 0
-    # if keys[pygame.K_DOWN] and c1.position[1]<display_height-c1.size:
-    #     c1.position[1] += c1.speed
-    #     c1.angle = 180
+    if keys[pygame.K_LEFT] and game.p1[0]>0:
+        game.p1[0] -= 8
+        #c1.angle = 90
+    if keys[pygame.K_RIGHT] and game.p1[0]<display_width-100:
+        game.p1[0] += 8
+        #c1.angle = -90
+    if keys[pygame.K_UP] and game.p1[1]>0:
+        game.p1[1] -= 8
+        #c1.angle = 0
+    if keys[pygame.K_DOWN] and game.p1[1]<display_height-100:
+        game.p1[1] += 8
+        #c1.angle = 180
     # if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
     #     c1.angle = 45
     # if keys[pygame.K_LEFT] and keys[pygame.K_DOWN]:
@@ -81,18 +81,18 @@ def game_loop():
     # if keys[pygame.K_RIGHT] and keys[pygame.K_UP]:
     #     c1.angle = -45
 #circle 2
-    # if keys[pygame.K_a] and c2.position[0]>0:
-    #     c2.position[0] -= c2.speed
-    #     c2.angle = 90
-    # if keys[pygame.K_d] and c2.position[0]<display_width-c2.size:
-    #     c2.position[0] += c2.speed
-    #     c2.angle = -90
-    # if keys[pygame.K_w] and c2.position[1]>0:
-    #     c2.position[1] -= c2.speed
-    #     c2.angle = 0
-    # if keys[pygame.K_s] and c2.position[1]<display_height-c2.size:
-    #     c2.position[1] += c2.speed
-    #     c2.angle = 180
+    if keys[pygame.K_a] and game.p2[0]>0:
+        game.p2[0] -= 8
+        #c1.angle = 90
+    if keys[pygame.K_d] and game.p2[0]<display_width-100:
+        game.p2[0] += 8
+        #c1.angle = -90
+    if keys[pygame.K_w] and game.p2[1]>0:
+        game.p2[1] -= 8
+        #c1.angle = 0
+    if keys[pygame.K_s] and game.p2[1]<display_height-100:
+        game.p2[1] += 8
+        #c1.angle = 180
     # if keys[pygame.K_a] and keys[pygame.K_w]:
     #     c2.angle = 45
     # if keys[pygame.K_a] and keys[pygame.K_s]:
@@ -104,6 +104,8 @@ def game_loop():
 
 
     display.blit(map, (0, 0))
+    display.blit(game.tank1, (game.p1[0], game.p1[1]))
+    display.blit(game.tank2, (game.p2[0], game.p2[1]))
     #display.fill((0,0,0))
     #c1.update(display)
     #c2.update(display)
