@@ -10,7 +10,7 @@ display_width = 1280
 display_height = 720
 display = pygame.display.set_mode((display_width, display_height), pygame.FULLSCREEN)
 pygame.display.set_caption('Tanks Game - Brought To You By Oliver & Rasmus')
-myfont = pygame.font.SysFont("comicsansms", 68)
+myfont = pygame.font.SysFont("arial", 68)
 
 def menu():
     baggrund_menu = pygame.image.load('Menu_wallpaper.png')
