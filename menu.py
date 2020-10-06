@@ -18,9 +18,10 @@ def menu():
 
     display.blit(baggrund_menu,(0, 0))
     mouse = pygame.mouse.get_pos()
-
-    if 1050+200 > mouse[0] > 200 and 300+75 > mouse[1] > 300:
+    print(mouse)
+    if 1050+200> mouse[0] > 1050 and 300+75 > mouse[1] > 300:
         pygame.draw.rect(display, (200,200,200), (1050,300,200,75))
+
     #else:
         #pygame.draw.rect(display, (250,250,250), (1050,300,200,75),0)
     display.blit(myfont.render("PLAY", 100, (255,255,255)), (1050,300+20))
