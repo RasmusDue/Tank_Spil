@@ -1,6 +1,7 @@
 import pygame
 import random
 from object import Game
+game = Game()
 from object import Tank
 from object import Ball
 
@@ -23,6 +24,25 @@ black = (0, 0, 0)
 blue = (0, 0, 255)
 red = (200, 0 , 0)
 
+#Sounds
+lyd_crowd = pygame.mixer.Sound("sounds/Crowd_0001.wav")
+#lyd_back1 = pygame.mixer.music.load("sounds/main1.wav")
+
+#pygame.mixer.music.load("sounds/main1.wav")
+
+random_sound = random.randint(0,3)
+print(random_sound)
+if random_sound == 0:
+    pygame.mixer.music.load("sounds/main1.wav")
+elif random_sound == 1:
+    pygame.mixer.music.load("sounds/main2.wav")
+elif random_sound == 2:
+    pygame.mixer.music.load("sounds/main3.wav")
+elif random_sound == 3:
+    pygame.mixer.music.load("sounds/main4.wav")
+#pygame.mixer.music.set_volume(game.main_sound_volume)
+pygame.mixer.music.play(0)
+#print(game.main_sound_volume)
 
 #images
 baggrund_menu = pygame.image.load('Menu_wallpaper.png')
@@ -32,7 +52,6 @@ map1 = pygame.image.load('background1(1).png')
 map1 = pygame.transform.scale(map1, (1280,720))
 map2 = pygame.image.load('background 2.png')
 map2 = pygame.transform.scale(map2, (1280,720))
-map = []
 tank1 = pygame.image.load('blaa_tank.png')
 tank_png1 = pygame.transform.scale(tank1, (100, 100))
 tank2 = pygame.image.load('rod_tank.png')
@@ -45,6 +64,8 @@ game = Game()
 game.tank1 = tank_png1
 game.tank2 = tank_png2
 game.ball_png = ball_png
+game.sound_crowd = lyd_crowd
+#game.sound_back1 = lyd_back1
 
 #random map
 random_map = random.randint(0,1)
@@ -54,24 +75,45 @@ if random_map == 0:
 elif random_map == 1:
     game.map = map2
 
+
+
 #create objects
 #b = ball(pball, ball1)
+
+
 
 
 #Game Menu
 def menu():
     display.blit(baggrund_menu,(0, 0))
+
+    #game.sound_back1.play(0)
     mouse = pygame.mouse.get_pos()
     #print(mouse)
     if 1050+200> mouse[0] > 1050 and 300+75 > mouse[1] > 300:
         pygame.draw.rect(display, (200,200,200), (1050,300,200,100))
         if event.type == pygame.MOUSEBUTTONDOWN:
+            game.sound_crowd.play(0)
             game.tilstand = 1
     #else:
         #pygame.draw.rect(display, (250,250,250), (1050,300,200,75),0)
     display.blit(myfont.render("PLAY", 100, (255,255,255)), (1050,300+20))
     display.blit(myfont.render("QUIT", 100, (255,255,255)), (1050,500+20))
 
+    display.blit(myfont.render("Sound: {}".format(game.main_sound_volume), 100, (255,255,255)), (1000,30))
+    display.blit(myfont.render("Vol-Up", 100, (255,255,255)), (1000,100))
+    if 1000+200> mouse[0] > 1000 and 100+75 > mouse[1] > 100:
+        pygame.draw.rect(display, (200,200,200), (1000,100,200,80))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if game.main_sound_volume <= 0.9:
+                game.main_sound_volume += 0.1
+    display.blit(myfont.render("Vol-Down", 100, (255,255,255)), (1000,200))
+    if 1000+200> mouse[0] > 1000 and 200+75 > mouse[1] > 200:
+        pygame.draw.rect(display, (200,200,200), (1000,200,200,80))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if game.main_sound_volume >= 0.0:
+                game.main_sound_volume -= 0.1
+    pygame.mixer.music.set_volume(game.main_sound_volume)
 
     if 1050+200> mouse[0] > 1050 and 500+75 > mouse[1] > 500:
         pygame.draw.rect(display, (200,200,200), (1050,500,200,100))
@@ -137,7 +179,9 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             done = True
-
+        # keys = pygame.key.get_pressed()
+        # if keys[pygame.K_ESCAPE] and game.tilstand == 1:
+        #     game.tilstand = 0
     #game_loop()
     if game.tilstand == 0:
         #print("Tilstand 0")

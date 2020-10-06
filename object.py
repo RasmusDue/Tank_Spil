@@ -23,6 +23,10 @@ class Game():
         self.pball = [display_width/2-60,display_height/2-50]
         self.ball_png = []
         self.ball = Ball(self.pball, self.ball_png)
+    #Sounds
+        self.main_sound_volume = 1
+        self.sound_crowd = []
+        self.sound_back1 = []
 
 
 
