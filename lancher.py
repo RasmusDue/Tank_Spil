@@ -1,8 +1,9 @@
 import pygame
 import random
+from object import Game
 from object import Tanks
 from object import Ball
-from object import Game
+
 import pygame_menu
 
 #setup pygame
@@ -23,9 +24,12 @@ red = (200, 0 , 0)
 p1 = [1150,1280/2-50]
 p2 = [50,720/2-50]
 pball = [display_width/2-100,display_height/2-50]
-controls1 = ["K_LEFT", "K_RIGHT", "K_UP", "K_DOWN"]
+myfont = pygame.font.SysFont("arial", 68)
 
 #images
+baggrund_menu = pygame.image.load('Menu_wallpaper.png')
+baggrund_menu = pygame.transform.scale(baggrund_menu, (1280,720))
+
 map1 = pygame.image.load('background1(1).png')
 map1 = pygame.transform.scale(map1, (1280,720))
 map2 = pygame.image.load('background 2.png')
@@ -55,12 +59,30 @@ elif random_map == 1:
 
 
 #Game Menu
+def menu():
+    display.blit(baggrund_menu,(0, 0))
+    mouse = pygame.mouse.get_pos()
+    print(mouse)
+    if 1050+200> mouse[0] > 1050 and 300+75 > mouse[1] > 300:
+        pygame.draw.rect(display, (200,200,200), (1050,300,200,100))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            game.tilstand = 1
+    #else:
+        #pygame.draw.rect(display, (250,250,250), (1050,300,200,75),0)
+    display.blit(myfont.render("PLAY", 100, (255,255,255)), (1050,300+20))
+    display.blit(myfont.render("QUIT", 100, (255,255,255)), (1050,500+20))
+
+
+    if 1050+200> mouse[0] > 1050 and 500+75 > mouse[1] > 500:
+        pygame.draw.rect(display, (200,200,200), (1050,500,200,100))
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pygame.quit()
 
 
 #Main game loop
 def game_loop():
     keys = pygame.key.get_pressed()
-#circle 1
+    #tank 1
     if keys[pygame.K_LEFT] and game.p1[0]>0:
         game.p1[0] -= 8
         game.angle1 = 90
@@ -81,7 +103,7 @@ def game_loop():
     #     c1.angle = -135
     # if keys[pygame.K_RIGHT] and keys[pygame.K_UP]:
     #     c1.angle = -45
-#circle 2
+    #tank 2
     if keys[pygame.K_a] and game.p2[0]>0:
         game.p2[0] -= 8
         game.angle2 = 90
@@ -121,10 +143,10 @@ while not done:
 
     #game_loop()
     if game.tilstand == 0:
-        print("Tilstand 0")
-        #menu()
+        #print("Tilstand 0")
+        menu()
     elif game.tilstand == 1:
-        print("Tilstand 1")
+        #print("Tilstand 1")
         game_loop()
 #pygame kommandoer til at vise grafikken og opdatere 60 gange i sekundet.
     pygame.display.update()

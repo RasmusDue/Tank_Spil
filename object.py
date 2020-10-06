@@ -6,7 +6,7 @@ import random
 
 class Game():
     def __init__(self):
-        self.tilstand = 1
+        self.tilstand = 0
         self.blue = (0, 0, 255)
         self.red = (200, 0 , 0)
         self.p1 = [1135,720/2-50]
