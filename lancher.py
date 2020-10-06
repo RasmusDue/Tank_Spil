@@ -19,8 +19,8 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 blue = (0, 0, 255)
 red = (200, 0 , 0)
-p1 = [400,400]
-p2 = [600,200]
+p1 = [1150,display_height/2-50]
+p2 = [50,display_height/2-50]
 pball = [display_width/2-100,display_height/2-50]
 controls1 = ["K_LEFT", "K_RIGHT", "K_UP", "K_DOWN"]
 
