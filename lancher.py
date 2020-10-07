@@ -95,30 +95,31 @@ def menu():
         if event.type == pygame.MOUSEBUTTONDOWN:
             game.sound_crowd.play(0)
             game.tilstand = 1
-    #else:
-        #pygame.draw.rect(display, (250,250,250), (1050,300,200,75),0)
     display.blit(myfont.render("PLAY", 100, (255,255,255)), (1050,300+20))
-    display.blit(myfont.render("QUIT", 100, (255,255,255)), (1050,500+20))
 
     display.blit(myfont.render("Sound: {}".format(game.main_sound_volume), 100, (255,255,255)), (1000,30))
-    display.blit(myfont.render("Vol-Up", 100, (255,255,255)), (1000,100))
+    #Vol-Up
     if 1000+200> mouse[0] > 1000 and 100+75 > mouse[1] > 100:
         pygame.draw.rect(display, (200,200,200), (1000,100,200,80))
         if event.type == pygame.MOUSEBUTTONDOWN:
             if game.main_sound_volume <= 0.9:
                 game.main_sound_volume += 0.1
-    display.blit(myfont.render("Vol-Down", 100, (255,255,255)), (1000,200))
+    display.blit(myfont.render("Vol-Up", 100, (255,255,255)), (1000,100))
+    #Vol-Down
     if 1000+200> mouse[0] > 1000 and 200+75 > mouse[1] > 200:
         pygame.draw.rect(display, (200,200,200), (1000,200,200,80))
         if event.type == pygame.MOUSEBUTTONDOWN:
             if game.main_sound_volume >= 0.0:
                 game.main_sound_volume -= 0.1
+    display.blit(myfont.render("Vol-Down", 100, (255,255,255)), (1000,200))
+
     pygame.mixer.music.set_volume(game.main_sound_volume)
 
     if 1050+200> mouse[0] > 1050 and 500+75 > mouse[1] > 500:
         pygame.draw.rect(display, (200,200,200), (1050,500,200,100))
         if event.type == pygame.MOUSEBUTTONDOWN:
             pygame.quit()
+    display.blit(myfont.render("QUIT", 100, (255,255,255)), (1050,500+20))
 
 
 #Main game loop
@@ -179,8 +180,9 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             done = True
-        # keys = pygame.key.get_pressed()
-        # if keys[pygame.K_ESCAPE] and game.tilstand == 1:
+
+        #keys = pygame.key.get_pressed()
+        # if keys[pygame.K_ESCAPE]:
         #     game.tilstand = 0
     #game_loop()
     if game.tilstand == 0:
@@ -189,6 +191,9 @@ while not done:
     elif game.tilstand == 1:
         #print("Tilstand 1")
         game_loop()
+        if (event.type == pygame.KEYDOWN and event.key == pygame.K_m):
+            game.tilstand = 0
+            print("tilstand = 0")
 #pygame kommandoer til at vise grafikken og opdatere 60 gange i sekundet.
     pygame.display.update()
     clock.tick(60)
