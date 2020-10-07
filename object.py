@@ -30,8 +30,11 @@ class Game():
 
 
 
-class Tank():
+class Tank(pygame.sprite.Sprite):
     def __init__(self, color, position, tank):
+        # Call the parent class (Sprite) constructor
+        pygame.sprite.Sprite.__init__(self)
+
         self.size = 100
         self.color = color
         self.position = position
