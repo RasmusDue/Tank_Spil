@@ -23,6 +23,8 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 blue = (0, 0, 255)
 red = (200, 0 , 0)
+ball=False
+
 
 #Sounds
 lyd_crowd = pygame.mixer.Sound("sounds/Crowd_0001.wav")
@@ -58,6 +60,8 @@ tank2 = pygame.image.load('rod_tank.png')
 tank_png2 = pygame.transform.scale(tank2, (100, 100))
 ball = pygame.image.load('bold.png')
 ball_png = pygame.transform.scale(ball, (100, 100))
+bullet_image = pygame.image.load("ball.png")
+bullet_image = pygame.transform.scale(bullet_image, (50,50))
 
 #game
 game = Game()
@@ -175,6 +179,9 @@ def game_loop():
     display.blit(tank1_rotate, (game.p1[0], game.p1[1]))
     display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
     display.blit(game.ball_png, (game.pball[0], game.pball[1]))
+
+    if keys[pygame.K_RETURN]:
+        display.blit(bullet_image,(0, 0))
 
 while not done:
     for event in pygame.event.get():
