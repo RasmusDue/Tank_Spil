@@ -47,21 +47,36 @@ pygame.mixer.music.play(0)
 #print(game.main_sound_volume)
 
 #images
-baggrund_menu = pygame.image.load('Menu_wallpaper.png')
+baggrund_menu = pygame.image.load('Menu_wallpaper.png').convert_alpha()
 baggrund_menu = pygame.transform.scale(baggrund_menu, (1280,720))
 
-map1 = pygame.image.load('background1(1).png')
+map1 = pygame.image.load('background1(1).png').convert_alpha()
 map1 = pygame.transform.scale(map1, (1280,720))
-map2 = pygame.image.load('background 2.png')
+map2 = pygame.image.load('background 2.png').convert_alpha()
 map2 = pygame.transform.scale(map2, (1280,720))
-tank1 = pygame.image.load('blaa_tank.png')
+
+tank1 = pygame.image.load('blaa_tank.png').convert_alpha()
 tank_png1 = pygame.transform.scale(tank1, (100, 100))
-tank2 = pygame.image.load('rod_tank.png')
+tank1_mask = pygame.mask.from_surface(tank_png1)
+tank1_rect = tank_png1.get_rect()
+
+
+tank2 = pygame.image.load('rod_tank.png').convert_alpha()
 tank_png2 = pygame.transform.scale(tank2, (100, 100))
-ball = pygame.image.load('bold.png')
+tank2_mask = pygame.mask.from_surface(tank_png2)
+tank2_rect = tank_png2.get_rect()
+
+ball = pygame.image.load('bold.png').convert_alpha()
 ball_png = pygame.transform.scale(ball, (100, 100))
+<<<<<<< HEAD
 bullet_image = pygame.image.load("ball.png")
 bullet_image = pygame.transform.scale(bullet_image, (50,50))
+=======
+ball_mask = pygame.mask.from_surface(ball_png)
+ball_rect = ball_png.get_rect()
+ballx = display_width/2 - ball_rect.center[0]
+bally = display_height/2 - ball_rect.center[1]
+>>>>>>> dev-rasmus
 
 #game
 game = Game()
@@ -69,6 +84,7 @@ game.tank1 = tank_png1
 game.tank2 = tank_png2
 game.ball_png = ball_png
 game.sound_crowd = lyd_crowd
+game.pball = [ballx, bally]
 #game.sound_back1 = lyd_back1
 
 #random map
@@ -78,14 +94,6 @@ if random_map == 0:
     game.map = map1
 elif random_map == 1:
     game.map = map2
-
-
-
-#create objects
-#b = ball(pball, ball1)
-
-
-
 
 #Game Menu
 def menu():
@@ -175,7 +183,24 @@ def game_loop():
     tank1_rotate = pygame.transform.rotate(game.tank1,game.angle1)
     tank2_rotate = pygame.transform.rotate(game.tank2,game.angle2)
     display.blit(game.map, (0, 0))
+    #Score bord
     display.blit(myfont.render("{}:{}".format(game.score[0], game.score[1]), 100, white), (display_width/2-50,20))
+
+
+    #mx, my = pygame.mouse.get_pos()
+    # tank1_mask = pygame.mask.from_surface(tank1_rotate)
+    # tank2_mask = pygame.mask.from_surface(tank2_rotate)
+    game.t1_mask = pygame.mask.from_surface(tank1_rotate)
+    game.t2_mask = pygame.mask.from_surface(tank2_rotate)
+    offset = (int(game.p2[0] - game.p1[0]), int(game.p2[1] - game.p1[1]))
+    result = game.t1_mask.overlap(game.t2_mask, offset)
+    if result:
+        print("Collision")
+        display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
+    # elif not result:
+    #     print("No Collision")
+
+    #Draw tanks & ball in game
     display.blit(tank1_rotate, (game.p1[0], game.p1[1]))
     display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
     display.blit(game.ball_png, (game.pball[0], game.pball[1]))
