@@ -1,7 +1,8 @@
-#import pygame
+import pygame
 import random
 
 #setup variables
+pygame.init()
 display_width = 1280
 display_height = 720
 
@@ -15,25 +16,27 @@ class Game():
         self.p2 = [45,720/2-50]
         self.tank1 = []
         self.tank2 = []
+        self.t1_mask = []
+        self.t2_mask = []
         self.angle1 = 90
         self.angle2 = -90
         self.map = []
-        self.c1 = Tank(self.blue, self.p1, self.tank1)
-        self.c2 = Tank(self.red, self.p2, self.tank2)
-        self.pball = [display_width/2-60,display_height/2-50]
+        self.t1 = Tank(self.blue, self.p1, self.tank1, self.t1_mask)
+        self.t2 = Tank(self.red, self.p2, self.tank2, self.t2_mask)
+        self.pball = []
         self.ball_png = []
         self.ball = Ball(self.pball, self.ball_png)
     #Sounds
-        self.main_sound_volume = 1
+        self.main_sound_volume = 0.0
         self.sound_crowd = []
         self.sound_back1 = []
 
 
 
-class Tank(pygame.sprite.Sprite):
-    def __init__(self, color, position, tank):
+class Tank():
+    def __init__(self, color, position, tank, mask):
         # Call the parent class (Sprite) constructor
-        pygame.sprite.Sprite.__init__(self)
+        #pygame.sprite.Sprite.__init__(self)
 
         self.size = 100
         self.color = color
@@ -41,10 +44,19 @@ class Tank(pygame.sprite.Sprite):
         self.speed = 8
         self.angle = 0
         self.tank_png = tank
+        self.mask = mask
 
     def update(self):
         pass
 
+    def collision(self, other):
+        offset = (int(other.position[0] - self.position[0]), int(other.position[1] - self.position[1]))
+        mask = self.mask
+        result = mask.overlap(other.mask, offset)
+        if result:
+            return True
+        if not result:
+            return False
 
 class Ball():
     def __init__(self, position, png):
