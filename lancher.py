@@ -181,11 +181,11 @@ def game_loop():
         game.t1.liv1 -= random.randint(1,8)
         game.t2.liv2 -= random.randint(1,8)
     if game.t1.liv1 <=0:
-        display.blit(myfont.render("RED VICTORY", 50, red), (display_width/2-180,100))
+        display.blit(myfont.render("BLUE VICTORY", 50, blue), (display_width/2-180,100))
         #pygame.time.wait(5000)
         #game.tilstand = 0
     if game.t2.liv2 <=0:
-        display.blit(myfont.render("BLUE VICTORY", 50, blue), (display_width/2-180,100))
+        display.blit(myfont.render("RED VICTORY", 50, red), (display_width/2-180,100))
     #    pygame.time.delay(5000)
         #game.tilstand = 0
 
