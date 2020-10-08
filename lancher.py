@@ -83,6 +83,7 @@ game.tank2 = tank_png2
 game.ball_png = ball_png
 game.sound_crowd = lyd_crowd
 game.pball = [ballx, bally]
+game.ball_mask = ball_mask
 #game.sound_back1 = lyd_back1
 
 #random map
@@ -135,72 +136,89 @@ def menu():
 #Main game loop
 def game_loop():
     keys = pygame.key.get_pressed()
-    #tank 1
-    if keys[pygame.K_LEFT] and game.p1[0]>0:
-        game.p1[0] -= 8
-        game.angle1 = 90
-    if keys[pygame.K_RIGHT] and game.p1[0]<display_width-100:
-        game.p1[0] += 8
-        game.angle1 = -90
-    if keys[pygame.K_UP] and game.p1[1]>0:
-        game.p1[1] -= 8
-        game.angle1 = 0
-    if keys[pygame.K_DOWN] and game.p1[1]<display_height-100:
-        game.p1[1] += 8
-        game.angle1 = 180
-    if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
-        game.angle1 = 45
-    if keys[pygame.K_LEFT] and keys[pygame.K_DOWN]:
-        game.angle1 = 135
-    if keys[pygame.K_RIGHT] and keys[pygame.K_DOWN]:
-        game.angle1 = -135
-    if keys[pygame.K_RIGHT] and keys[pygame.K_UP]:
-        game.angle1 = -45
-    #tank 2
-    if keys[pygame.K_a] and game.p2[0]>0:
-        game.p2[0] -= 8
-        game.angle2 = 90
-    if keys[pygame.K_d] and game.p2[0]<display_width-100:
-        game.p2[0] += 8
-        game.angle2 = -90
-    if keys[pygame.K_w] and game.p2[1]>0:
-        game.p2[1] -= 8
-        game.angle2 = 0
-    if keys[pygame.K_s] and game.p2[1]<display_height-100:
-        game.p2[1] += 8
-        game.angle2 = 180
-    if keys[pygame.K_a] and keys[pygame.K_w]:
-        game.angle2 = 45
-    if keys[pygame.K_a] and keys[pygame.K_s]:
-        game.angle2 = 135
-    if keys[pygame.K_d] and keys[pygame.K_s]:
-        game.angle2 = -135
-    if keys[pygame.K_d] and keys[pygame.K_w]:
-        game.angle2 = -45
 
+    display.blit(game.map, (0, 0))
+    display.blit(myfont.render("{}:{}".format(game.score[0], game.score[1]), 100, white), (display_width/2-50,20))
     tank1_rotate = pygame.transform.rotate(game.tank1,game.angle1)
     tank2_rotate = pygame.transform.rotate(game.tank2,game.angle2)
-    display.blit(game.map, (0, 0))
-    #Score bord
-    display.blit(myfont.render("{}:{}".format(game.score[0], game.score[1]), 100, white), (display_width/2-50,20))
 
-
-    #mx, my = pygame.mouse.get_pos()
-    # tank1_mask = pygame.mask.from_surface(tank1_rotate)
-    # tank2_mask = pygame.mask.from_surface(tank2_rotate)
     game.t1_mask = pygame.mask.from_surface(tank1_rotate)
     game.t2_mask = pygame.mask.from_surface(tank2_rotate)
-    offset = (int(game.p2[0] - game.p1[0]), int(game.p2[1] - game.p1[1]))
-    result = game.t1_mask.overlap(game.t2_mask, offset)
-    if result:
+    tank_offset = (int(game.p2[0] - game.p1[0]), int(game.p2[1] - game.p1[1]))
+    tank_collision = game.t1_mask.overlap(game.t2_mask, tank_offset)
+
+    ball_offset_t1 = (int(game.pball[0] - game.p1[0]), int(game.pball[1] - game.p1[1]))
+    ball_offset_t2 = (int(game.pball[0] - game.p2[0]), int(game.pball[1] - game.p2[1]))
+    ball_collision_t1 = game.ball_mask.overlap(game.t1_mask, ball_offset_t1)
+    ball_collision_t2 = game.ball_mask.overlap(game.t2_mask, ball_offset_t2)
+    #game.ball.update()
+    game.pball[0] += game.ball.speed_x
+    game.pball[1] += game.ball.speed_y
+
+    if ball_collision_t1:
+        game.ball.speed_x = -8
+
+    if ball_collision_t2:
+        game.ball.speed_x = 8
+
+    if tank_collision:
         print("Collision")
         display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
-    # elif not result:
-    #     print("No Collision")
+        game.p1[0] -=  game.t1.speed
+        game.p1[1] -=  game.t1.speed
+        game.p2[0] +=  game.t2.speed
+        game.p2[1] +=  game.t2.speed
+    #Tank controls
+    if not tank_collision:
+        #tank 1 controls
+        if keys[pygame.K_LEFT] and game.p1[0]>0:
+            game.p1[0] -= game.t1.speed
+            game.angle1 = 90
+        if keys[pygame.K_RIGHT] and game.p1[0]<display_width-100:
+            game.p1[0] += game.t1.speed
+            game.angle1 = -90
+        if keys[pygame.K_UP] and game.p1[1]>0:
+            game.p1[1] -= game.t1.speed
+            game.angle1 = 0
+        if keys[pygame.K_DOWN] and game.p1[1]<display_height-100:
+            game.p1[1] += game.t1.speed
+            game.angle1 = 180
+        if keys[pygame.K_LEFT] and keys[pygame.K_UP]:
+            game.angle1 = 45
+        if keys[pygame.K_LEFT] and keys[pygame.K_DOWN]:
+            game.angle1 = 135
+        if keys[pygame.K_RIGHT] and keys[pygame.K_DOWN]:
+            game.angle1 = -135
+        if keys[pygame.K_RIGHT] and keys[pygame.K_UP]:
+            game.angle1 = -45
+        #tank 2 controls
+        if keys[pygame.K_a] and game.p2[0]>0:
+            game.p2[0] -= game.t2.speed
+            game.angle2 = 90
+        if keys[pygame.K_d] and game.p2[0]<display_width-100:
+            game.p2[0] += game.t2.speed
+            game.angle2 = -90
+        if keys[pygame.K_w] and game.p2[1]>0:
+            game.p2[1] -= game.t2.speed
+            game.angle2 = 0
+        if keys[pygame.K_s] and game.p2[1]<display_height-100:
+            game.p2[1] += game.t2.speed
+            game.angle2 = 180
+        if keys[pygame.K_a] and keys[pygame.K_w]:
+            game.angle2 = 45
+        if keys[pygame.K_a] and keys[pygame.K_s]:
+            game.angle2 = 135
+        if keys[pygame.K_d] and keys[pygame.K_s]:
+            game.angle2 = -135
+        if keys[pygame.K_d] and keys[pygame.K_w]:
+            game.angle2 = -45
+
+
 
     #Draw tanks & ball in game
     display.blit(tank1_rotate, (game.p1[0], game.p1[1]))
     display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
+    #display.blit(game.ball_png, (game.ball.position[0], game.ball.position[1]))
     display.blit(game.ball_png, (game.pball[0], game.pball[1]))
 
     if keys[pygame.K_RETURN]:

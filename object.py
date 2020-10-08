@@ -26,6 +26,7 @@ class Game():
         self.pball = []
         self.ball_png = []
         self.ball = Ball(self.pball, self.ball_png)
+        self.ball_mask = []
     #Sounds
         self.main_sound_volume = 0.0
         self.sound_crowd = []
@@ -60,11 +61,12 @@ class Tank():
 
 class Ball():
     def __init__(self, position, png):
-        self.speed = 8
+        self.speed_x = 0
+        self.speed_y = 0
         self.size = 100
         self.position = position
         #self.ball_png = pygame.transform.scale(png, (self.size, self.size))
 
-    def update(self, frame):
-        #frame.blit(self.ball_png, (self.position[0], self.position[1]))
-        pass
+    def update(self):
+        self.position[0] += 1
+        self.position[1] += 1
