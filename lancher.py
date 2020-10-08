@@ -68,15 +68,13 @@ tank2_rect = tank_png2.get_rect()
 
 ball = pygame.image.load('bold.png').convert_alpha()
 ball_png = pygame.transform.scale(ball, (100, 100))
-<<<<<<< HEAD
-bullet_image = pygame.image.load("ball.png")
-bullet_image = pygame.transform.scale(bullet_image, (50,50))
-=======
 ball_mask = pygame.mask.from_surface(ball_png)
 ball_rect = ball_png.get_rect()
 ballx = display_width/2 - ball_rect.center[0]
 bally = display_height/2 - ball_rect.center[1]
->>>>>>> dev-rasmus
+
+bullet_image = pygame.image.load("ball.png")
+bullet_image = pygame.transform.scale(bullet_image, (50,50))
 
 #game
 game = Game()
@@ -206,16 +204,13 @@ def game_loop():
     display.blit(game.ball_png, (game.pball[0], game.pball[1]))
 
     if keys[pygame.K_RETURN]:
-        display.blit(bullet_image,(0, 0))
+        display.blit(bullet_image, (game.p1[0], game.p1[1]))
 
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             done = True
 
-        #keys = pygame.key.get_pressed()
-        # if keys[pygame.K_ESCAPE]:
-        #     game.tilstand = 0
     #game_loop()
     if game.tilstand == 0:
         #print("Tilstand 0")
