@@ -178,8 +178,8 @@ def game_loop():
         game.p1[1] -=  game.t1.speed
         game.p2[0] +=  game.t2.speed
         game.p2[1] +=  game.t2.speed
-        game.t1.liv1 -= 10
-        game.t2.liv2 -= 10
+        game.t1.liv1 -= random.randint(1,8)
+        game.t2.liv2 -= random.randint(1,8)
     if game.t1.liv1 <=0 or game.t2.liv2 <=0:
         display.blit(myfont.render("TYYYYSKLANNNNNDDDD", 50, red), (display_width/2-180,100))
 
