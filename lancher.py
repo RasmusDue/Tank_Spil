@@ -19,6 +19,7 @@ pygame.display.set_caption('Tanks Game - Brought To You By Oliver & Rasmus')
 done = False
 clock = pygame.time.Clock()
 myfont = pygame.font.SysFont("arial", 68)
+myfont2 = pygame.font.SysFont("arial", 42)
 white = (255, 255, 255)
 black = (0, 0, 0)
 blue = (0, 0, 255)
@@ -107,21 +108,30 @@ def menu():
             game.tilstand = 1
     display.blit(myfont.render("PLAY", 100, (255,255,255)), (1050,300+20))
 
-    display.blit(myfont.render("Sound: {}".format(game.main_sound_volume), 100, (255,255,255)), (1000,30))
+    display.blit(myfont2.render("Sound: {}".format(int(game.main_sound_volume*100)), 100, (255,255,255)), (1000,0))
+
     #Vol-Up
     if 1000+200> mouse[0] > 1000 and 100+75 > mouse[1] > 100:
         pygame.draw.rect(display, (200,200,200), (1000,100,200,80))
         if event.type == pygame.MOUSEBUTTONDOWN:
             if game.main_sound_volume <= 0.9:
                 game.main_sound_volume += 0.1
-    display.blit(myfont.render("Vol-Up", 100, (255,255,255)), (1000,100))
+                game.main_sound_volume = round(game.main_sound_volume,2)
+    display.blit(myfont2.render("Vol-Up", 100, (255,255,255)), (1000,100))
     #Vol-Down
     if 1000+200> mouse[0] > 1000 and 200+75 > mouse[1] > 200:
         pygame.draw.rect(display, (200,200,200), (1000,200,200,80))
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if game.main_sound_volume >= 0.0:
+            if game.main_sound_volume >= 0.1:
                 game.main_sound_volume -= 0.1
-    display.blit(myfont.render("Vol-Down", 100, (255,255,255)), (1000,200))
+                game.main_sound_volume = round(game.main_sound_volume,2)
+    display.blit(myfont2.render("Vol-Down", 100, (255,255,255)), (1000,200))
+
+
+
+
+
+
 
     pygame.mixer.music.set_volume(game.main_sound_volume)
 
@@ -204,11 +214,12 @@ def game_loop():
     display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
     display.blit(game.ball_png, (game.pball[0], game.pball[1]))
 
-    if keys[pygame.K_RETURN]:
-        display.blit(bullet_image,(game.p1[0]-15, game.p1[1]+40))
 
-    if keys[pygame.K_SPACE]:
-        display.blit(bullet_image,(game.p2[0]+90, game.p2[1]+40))
+#    if keys[pygame.K_RETURN]:
+    #    display.blit(bullet_image,(game.p1[0], game.p1[1]))
+
+#    if keys[pygame.K_SPACE]:
+    #    display.blit(bullet_image,(game.p2[0], game.p2[1]))
 
 
 while not done:
