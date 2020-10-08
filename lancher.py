@@ -178,6 +178,9 @@ def game_loop():
         game.p1[1] -=  game.t1.speed
         game.p2[0] +=  game.t2.speed
         game.p2[1] +=  game.t2.speed
+        game.t1.liv1 -= 25
+        game.t2.liv2 -= 25
+
     #Tank controls
     if not tank_collision:
         #tank 1 controls
@@ -235,8 +238,8 @@ def game_loop():
     pygame.draw.rect(display,RED,(1075,5,200,5))
     pygame.draw.rect(display,GREEN,(1075,5,game.t1.liv1,5))
 
-    pygame.draw.rect(display,RED,(1075,5,200,5))
-    pygame.draw.rect(display,GREEN,(1075,5,game.t2.liv2,5))
+    pygame.draw.rect(display,RED,(25,5,200,5))
+    pygame.draw.rect(display,GREEN,(25,5,game.t2.liv2,5))
 
 
 #    if keys[pygame.K_RETURN]:
