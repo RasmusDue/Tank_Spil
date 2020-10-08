@@ -173,13 +173,16 @@ def game_loop():
 
     if tank_collision:
         print("Collision")
-        display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
+        #display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
         game.p1[0] -=  game.t1.speed
         game.p1[1] -=  game.t1.speed
         game.p2[0] +=  game.t2.speed
         game.p2[1] +=  game.t2.speed
         game.t1.liv1 -= 10
         game.t2.liv2 -= 10
+    if game.t1.liv1 <=0 or game.t2.liv2 <=0:
+        display.blit(myfont.render("TYYYYSKLANNNNNDDDD", 50, red), (display_width/2-180,100))
+
 
     #Tank controls
     if not tank_collision:
