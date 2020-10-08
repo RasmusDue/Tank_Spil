@@ -147,16 +147,6 @@ def menu():
 def game_loop():
     keys = pygame.key.get_pressed()
 
-<<<<<<< HEAD
-
-
-
-
-
-    tank1_rotate = pygame.transform.rotate(game.tank1,game.angle1)
-    tank2_rotate = pygame.transform.rotate(game.tank2,game.angle2)
-=======
->>>>>>> dev-rasmus
     display.blit(game.map, (0, 0))
     display.blit(myfont.render("{}:{}".format(game.score[0], game.score[1]), 100, white), (display_width/2-50,20))
     tank1_rotate = pygame.transform.rotate(game.tank1,game.angle1)
@@ -184,11 +174,6 @@ def game_loop():
     if tank_collision:
         print("Collision")
         display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
-<<<<<<< HEAD
-
-    # elif not result:
-    #     print("No Collision")
-=======
         game.p1[0] -=  game.t1.speed
         game.p1[1] -=  game.t1.speed
         game.p2[0] +=  game.t2.speed
@@ -239,7 +224,6 @@ def game_loop():
             game.angle2 = -45
 
 
->>>>>>> dev-rasmus
 
     #Draw tanks & ball in game
     display.blit(tank1_rotate, (game.p1[0], game.p1[1]))
@@ -249,10 +233,10 @@ def game_loop():
     RED = (255,0,0)
     GREEN = (0,255,0)
     pygame.draw.rect(display,RED,(1075,5,200,5))
-    pygame.draw.rect(display,GREEN,(1075,5,game.c1.liv1,5))
+    pygame.draw.rect(display,GREEN,(1075,5,game.t1.liv1,5))
 
     pygame.draw.rect(display,RED,(1075,5,200,5))
-    pygame.draw.rect(display,GREEN,(1075,5,game.c2.liv2,5))
+    pygame.draw.rect(display,GREEN,(1075,5,game.t2.liv2,5))
 
 
 #    if keys[pygame.K_RETURN]:

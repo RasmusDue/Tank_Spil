@@ -18,14 +18,14 @@ class Game():
         self.angle1 = 90
         self.angle2 = -90
         self.map = []
-        self.c1 = Tank(self.blue, self.p1, self.tank1)
-        self.c2 = Tank(self.red, self.p2, self.tank2)
+        self.t1 = Tank(self.blue, self.p1, self.tank1)
+        self.t2 = Tank(self.red, self.p2, self.tank2)
         self.pball = [display_width/2-60,display_height/2-50]
         self.ball_png = []
         self.ball = Ball(self.pball, self.ball_png)
         self.ball_mask = []
     #Sounds
-        self.main_sound_volume = 1
+        self.main_sound_volume = 0
         self.sound_crowd = []
         self.sound_back1 = []
 
