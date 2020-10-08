@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 from object import Game
 game = Game()
 from object import Tank
@@ -68,7 +69,7 @@ tank2_mask = pygame.mask.from_surface(tank_png2)
 tank2_rect = tank_png2.get_rect()
 
 ball = pygame.image.load('bold.png').convert_alpha()
-ball_png = pygame.transform.scale(ball, (100, 100))
+ball_png = pygame.transform.scale(ball, (game.ball.size, game.ball.size))
 
 bullet_image = pygame.image.load("ball.png")
 bullet_image = pygame.transform.scale(bullet_image, (20,20))
@@ -85,6 +86,7 @@ game.ball_png = ball_png
 game.sound_crowd = lyd_crowd
 game.pball = [ballx, bally]
 game.ball_mask = ball_mask
+
 #game.sound_back1 = lyd_back1
 
 #random map
@@ -128,12 +130,6 @@ def menu():
                 game.main_sound_volume = round(game.main_sound_volume,2)
     display.blit(myfont2.render("Vol-Down", 100, (255,255,255)), (1000,200))
 
-
-
-
-
-
-
     pygame.mixer.music.set_volume(game.main_sound_volume)
 
     if 1050+200> mouse[0] > 1050 and 500+75 > mouse[1] > 500:
@@ -157,41 +153,42 @@ def game_loop():
     tank_offset = (int(game.p2[0] - game.p1[0]), int(game.p2[1] - game.p1[1]))
     tank_collision = game.t1_mask.overlap(game.t2_mask, tank_offset)
 
-    ball_offset_t1 = (int(game.pball[0] - game.p1[0]), int(game.pball[1] - game.p1[1]))
-    ball_offset_t2 = (int(game.pball[0] - game.p2[0]), int(game.pball[1] - game.p2[1]))
+    ball_offset_t1 = (int(game.ball.position[0] - game.p1[0]), int(game.ball.position[1] - game.p1[1]))
+    ball_offset_t2 = (int(game.ball.position[0] - game.p2[0]), int(game.ball.position[1] - game.p2[1]))
     ball_collision_t1 = game.ball_mask.overlap(game.t1_mask, ball_offset_t1)
     ball_collision_t2 = game.ball_mask.overlap(game.t2_mask, ball_offset_t2)
-    #game.ball.update()
-    game.pball[0] += game.ball.speed_x
-    game.pball[1] += game.ball.speed_y
 
-    if ball_collision_t1:
-        game.ball.speed_x = -8
+    game.ball.position[0] += game.ball.speed_x
+    game.ball.position[1] += game.ball.speed_y
 
-    if ball_collision_t2:
-        game.ball.speed_x = 8
+    # if ball_collision_t1:
+    #     game.ball.speed_x = -8
+    #
+    # if ball_collision_t2:
+    #     game.ball.speed_x = 8
 
-    if tank_collision:
-        print("Collision")
-        #display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
-        game.p1[0] -=  game.t1.speed
-        game.p1[1] -=  game.t1.speed
-        game.p2[0] +=  game.t2.speed
-        game.p2[1] +=  game.t2.speed
-        game.t1.liv1 -= random.randint(1,8)
-        game.t2.liv2 -= random.randint(1,8)
-    if game.t1.liv1 <=0:
+    # if tank_collision:
+    #     print("Collision")
+    #     #display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
+    #     game.p1[0] -=  game.t1.speed
+    #     game.p1[1] -=  game.t1.speed
+    #     game.p2[0] +=  game.t2.speed
+    #     game.p2[1] +=  game.t2.speed
+    #     game.t1.liv -= random.randint(1,8)
+    #     game.t2.liv -= random.randint(1,8)
+
+    if game.t1.liv <=0:
         display.blit(myfont.render("BLUE VICTORY", 50, blue), (display_width/2-180,100))
         #pygame.time.wait(5000)
         #game.tilstand = 0
-    if game.t2.liv2 <=0:
+    if game.t2.liv <=0:
         display.blit(myfont.render("RED VICTORY", 50, red), (display_width/2-180,100))
-    #    pygame.time.delay(5000)
+        #pygame.time.delay(5000)
         #game.tilstand = 0
 
 
     #Tank controls
-    if not tank_collision:
+    if not tank_collision or tank_collision:
         #tank 1 controls
         if keys[pygame.K_LEFT] and game.p1[0]>0:
             game.p1[0] -= game.t1.speed
@@ -236,19 +233,32 @@ def game_loop():
             game.angle2 = -45
 
 
-
     #Draw tanks & ball in game
+    game.red_ball.position = [int(game.p2[0] + 50), int(game.p2[1] + 50)]
+    game.blue_ball.position = [int(game.p1[0] + 50), int(game.p1[1] + 50)]
+    #print(game.ball.position)
+    pygame.draw.circle(display, blue, (int(game.p1[0]+50), int(game.p1[1]+50)), 50, 0)
     display.blit(tank1_rotate, (game.p1[0], game.p1[1]))
+    #pygame.draw.circle(display, white, (int(game.p1[0]), int(game.p1[1])), 10, 0)
+
+
+    pygame.draw.circle(display, red, (game.red_ball.position[0], game.red_ball.position[1]), 50, 0)
     display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
     #display.blit(game.ball_png, (game.ball.position[0], game.ball.position[1]))
-    display.blit(game.ball_png, (game.pball[0], game.pball[1]))
+    display.blit(game.ball_png, (game.ball.position[0], game.ball.position[1]))
     RED = (255,0,0)
     GREEN = (0,255,0)
     pygame.draw.rect(display,RED,(1075,5,200,5))
-    pygame.draw.rect(display,GREEN,(1075,5,game.t1.liv1,5))
+    pygame.draw.rect(display,GREEN,(1075,5,game.t1.liv,5))
 
     pygame.draw.rect(display,RED,(25,5,200,5))
-    pygame.draw.rect(display,GREEN,(25,5,game.t2.liv2,5))
+    pygame.draw.rect(display,GREEN,(25,5,game.t2.liv,5))
+
+
+    game.objects.collision(0)
+    game.objects.collision(1)
+    #print("1- {} -1".format(game.objects.overlap))
+
 
 
 #    if keys[pygame.K_RETURN]:
