@@ -68,13 +68,13 @@ tank2_rect = tank_png2.get_rect()
 
 ball = pygame.image.load('bold.png').convert_alpha()
 ball_png = pygame.transform.scale(ball, (100, 100))
+
+bullet_image = pygame.image.load("ball.png")
+bullet_image = pygame.transform.scale(bullet_image, (20,20))
 ball_mask = pygame.mask.from_surface(ball_png)
 ball_rect = ball_png.get_rect()
 ballx = display_width/2 - ball_rect.center[0]
 bally = display_height/2 - ball_rect.center[1]
-
-bullet_image = pygame.image.load("ball.png")
-bullet_image = pygame.transform.scale(bullet_image, (50,50))
 
 #game
 game = Game()
@@ -195,6 +195,7 @@ def game_loop():
     if result:
         print("Collision")
         display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
+
     # elif not result:
     #     print("No Collision")
 
@@ -204,13 +205,20 @@ def game_loop():
     display.blit(game.ball_png, (game.pball[0], game.pball[1]))
 
     if keys[pygame.K_RETURN]:
-        display.blit(bullet_image, (game.p1[0], game.p1[1]))
+        display.blit(bullet_image,(game.p1[0]-15, game.p1[1]+40))
+
+    if keys[pygame.K_SPACE]:
+        display.blit(bullet_image,(game.p2[0]+90, game.p2[1]+40))
+
 
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             done = True
 
+        #keys = pygame.key.get_pressed()
+        # if keys[pygame.K_ESCAPE]:
+        #     game.tilstand = 0
     #game_loop()
     if game.tilstand == 0:
         #print("Tilstand 0")
