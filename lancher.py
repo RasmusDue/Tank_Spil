@@ -23,6 +23,8 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 blue = (0, 0, 255)
 red = (200, 0 , 0)
+ball=False
+
 
 #Sounds
 lyd_crowd = pygame.mixer.Sound("sounds/Crowd_0001.wav")
@@ -70,6 +72,9 @@ ball_mask = pygame.mask.from_surface(ball_png)
 ball_rect = ball_png.get_rect()
 ballx = display_width/2 - ball_rect.center[0]
 bally = display_height/2 - ball_rect.center[1]
+
+bullet_image = pygame.image.load("ball.png")
+bullet_image = pygame.transform.scale(bullet_image, (50,50))
 
 #game
 game = Game()
@@ -198,14 +203,14 @@ def game_loop():
     display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
     display.blit(game.ball_png, (game.pball[0], game.pball[1]))
 
+    if keys[pygame.K_RETURN]:
+        display.blit(bullet_image, (game.p1[0], game.p1[1]))
+
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             done = True
 
-        #keys = pygame.key.get_pressed()
-        # if keys[pygame.K_ESCAPE]:
-        #     game.tilstand = 0
     #game_loop()
     if game.tilstand == 0:
         #print("Tilstand 0")
