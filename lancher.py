@@ -188,6 +188,11 @@ def game_loop():
     if keys[pygame.K_d] and keys[pygame.K_w]:
         game.angle2 = -45
 
+
+
+
+
+
     tank1_rotate = pygame.transform.rotate(game.tank1,game.angle1)
     tank2_rotate = pygame.transform.rotate(game.tank2,game.angle2)
     display.blit(game.map, (0, 0))
@@ -213,6 +218,10 @@ def game_loop():
     display.blit(tank1_rotate, (game.p1[0], game.p1[1]))
     display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
     display.blit(game.ball_png, (game.pball[0], game.pball[1]))
+    RED = (255,0,0)
+    GREEN = (0,255,0)
+    pygame.draw.rect(display,RED,(1075,5,200,5))
+    pygame.draw.rect(display,GREEN,(1075,5,game.c1.liv,5))
 
 
 #    if keys[pygame.K_RETURN]:
