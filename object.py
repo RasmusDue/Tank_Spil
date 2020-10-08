@@ -38,7 +38,8 @@ class Tank():
         self.speed = 8
         self.angle = 0
         self.tank_png = tank
-        self.liv = 200
+        self.liv1 = 200
+        self.liv2 = 200
 
     def update(self):
         pass

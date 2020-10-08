@@ -221,7 +221,10 @@ def game_loop():
     RED = (255,0,0)
     GREEN = (0,255,0)
     pygame.draw.rect(display,RED,(1075,5,200,5))
-    pygame.draw.rect(display,GREEN,(1075,5,game.c1.liv,5))
+    pygame.draw.rect(display,GREEN,(1075,5,game.c1.liv1,5))
+
+    pygame.draw.rect(display,RED,(1075,5,200,5))
+    pygame.draw.rect(display,GREEN,(1075,5,game.c2.liv2,5))
 
 
 #    if keys[pygame.K_RETURN]:
