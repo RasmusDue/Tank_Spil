@@ -167,15 +167,15 @@ def game_loop():
     # if ball_collision_t2:
     #     game.ball.speed_x = 8
 
-    # if tank_collision:
-    #     print("Collision")
-    #     #display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
-    #     game.p1[0] -=  game.t1.speed
-    #     game.p1[1] -=  game.t1.speed
-    #     game.p2[0] +=  game.t2.speed
-    #     game.p2[1] +=  game.t2.speed
-    #     game.t1.liv -= random.randint(1,8)
-    #     game.t2.liv -= random.randint(1,8)
+    if tank_collision:
+        print("Collision")
+        #display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
+        game.p1[0] -=  game.t1.speed
+        game.p1[1] -=  game.t1.speed
+        game.p2[0] +=  game.t2.speed
+        game.p2[1] +=  game.t2.speed
+        game.t1.liv -= random.randint(1,8)
+        game.t2.liv -= random.randint(1,8)
 
     if game.t1.liv <=0:
         display.blit(myfont.render("BLUE VICTORY", 50, blue), (display_width/2-180,100))
@@ -237,12 +237,12 @@ def game_loop():
     game.red_ball.position = [int(game.p2[0] + 50), int(game.p2[1] + 50)]
     game.blue_ball.position = [int(game.p1[0] + 50), int(game.p1[1] + 50)]
     #print(game.ball.position)
-    pygame.draw.circle(display, blue, (int(game.p1[0]+50), int(game.p1[1]+50)), 50, 0)
+    #pygame.draw.circle(display, blue, (int(game.p1[0]+50), int(game.p1[1]+50)), 50, 0)
     display.blit(tank1_rotate, (game.p1[0], game.p1[1]))
     #pygame.draw.circle(display, white, (int(game.p1[0]), int(game.p1[1])), 10, 0)
 
 
-    pygame.draw.circle(display, red, (game.red_ball.position[0], game.red_ball.position[1]), 50, 0)
+    #pygame.draw.circle(display, red, (game.red_ball.position[0], game.red_ball.position[1]), 50, 0)
     display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
     #display.blit(game.ball_png, (game.ball.position[0], game.ball.position[1]))
     display.blit(game.ball_png, (game.ball.position[0], game.ball.position[1]))
@@ -255,8 +255,16 @@ def game_loop():
     pygame.draw.rect(display,GREEN,(25,5,game.t2.liv,5))
 
 
-    game.objects.collision(0)
-    game.objects.collision(1)
+
+
+    if game.ball.position[1] > 0 and game.ball.position[1] < 620:
+        game.objects.collision(0)
+        #game.ball.position[0] += game.ball.result_xy[0]
+    if game.ball.position[0] > 0 and game.ball.position[0] < 1180:
+        print("stop")
+        game.objects.collision(1)
+        #game.ball.position[1] += game.ball.result_xy[1]
+    print(game.ball.position)
     #print("1- {} -1".format(game.objects.overlap))
 
 

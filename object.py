@@ -62,6 +62,8 @@ class Ball():
         self.position = position
         self.id = id
 
+        self.result_xy = [0,0]
+
     def hasOverlapped(self, xy, radius):
         minDistance = 0.0 + radius + self.size/2
         distance = math.hypot(xy[0]-self.position[0],xy[1]-self.position[1])
@@ -78,8 +80,21 @@ class Objects:
 	def __init__(self):
 		self.container = list([])
 		self.overlap = list([])
-# target.speed_x = result[0]
-# target.speed_y = result[1]
+    # def collision(self, x):
+    #     self.overlap.append(self.container[x])
+    #     while self.overlap:
+    #         source = self.overlap[x]
+    #         self.overlap.pop(x)
+    #
+    #         for index in range(1, len(self.container)):
+    #             target = self.container[index]
+    #             if target.id == source.id: continue
+    #                 result = source.hasOverlapped((target.position[0]+50, target.position[1]+50), 50)
+    #                 if result:
+    #                     target.position[0] += result[0]
+    #                     target.position[1] += result[1]
+    #                     self.overlap.append(target)
+
 	def collision(self, x):
 		self.overlap.append(self.container[x])
 		while self.overlap:
@@ -92,6 +107,7 @@ class Objects:
 
 				result = source.hasOverlapped((target.position[0]+50, target.position[1]+50), 50)
 				if result:
+
 					target.position[0] += result[0]
 					target.position[1] += result[1]
 					self.overlap.append(target)
