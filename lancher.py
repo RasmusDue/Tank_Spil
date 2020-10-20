@@ -26,6 +26,7 @@ black = (0, 0, 0)
 blue = (0, 0, 255)
 red = (200, 0 , 0)
 ball=False
+ball_speed = [1,1]
 
 
 #Sounds
@@ -161,11 +162,26 @@ def game_loop():
     game.ball.position[0] += game.ball.speed_x
     game.ball.position[1] += game.ball.speed_y
 
-    # if ball_collision_t1:
-    #     game.ball.speed_x = -8
-    #
-    # if ball_collision_t2:
-    #     game.ball.speed_x = 8
+#Tjek om bolden rammer kanten
+    if game.ball.position[0] < 0:
+        game.ball.speed_x = (game.ball.speed_x/2)+4
+    if game.ball.position[0] > display_width - 100:
+        game.ball.speed_x = (game.ball.speed_x/2)-4
+
+    if game.ball.position[1] < 0:
+        game.ball.speed_y = (game.ball.speed_y/2)+4
+    if game.ball.position[1] > display_height - 50:
+        game.ball.speed_y = (game.ball.speed_y/2)-4
+
+#Tjek om Tanks' rammer bolden
+    if ball_collision_t1:
+        game.ball.speed_x = -8
+
+    if ball_collision_t2:
+        game.ball.speed_x = +8
+
+#Tjek om bolden er indenfor målrammen
+
 
     if tank_collision:
         print("Collision")
@@ -296,4 +312,4 @@ while not done:
             print("tilstand = 0")
 #pygame kommandoer til at vise grafikken og opdatere 60 gange i sekundet.
     pygame.display.update()
-    clock.tick(60)
+    clock.tick(360)
