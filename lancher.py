@@ -71,13 +71,21 @@ tank2_rect = tank_png2.get_rect()
 
 ball = pygame.image.load('bold.png').convert_alpha()
 ball_png = pygame.transform.scale(ball, (game.ball.size, game.ball.size))
-
-bullet_image = pygame.image.load("ball.png")
-bullet_image = pygame.transform.scale(bullet_image, (20,20))
 ball_mask = pygame.mask.from_surface(ball_png)
 ball_rect = ball_png.get_rect()
 ballx = display_width/2 - ball_rect.center[0]
 bally = display_height/2 - ball_rect.center[1]
+
+g_left = pygame.image.load('goalpost_left.png').convert_alpha()
+goal_left = pygame.transform.scale(g_left, (350, 300))
+left_mask = pygame.mask.from_surface(goal_left)
+
+g_right = pygame.image.load('goalpost_right.png').convert_alpha()
+goal_right = pygame.transform.scale(g_right, (350, 300))
+right_mask = pygame.mask.from_surface(goal_right)
+
+bullet_image = pygame.image.load("ball.png")
+bullet_image = pygame.transform.scale(bullet_image, (20,20))
 
 #game
 game = Game()
@@ -87,6 +95,8 @@ game.ball_png = ball_png
 game.sound_crowd = lyd_crowd
 game.pball = [ballx, bally]
 game.ball_mask = ball_mask
+game.goal_left_mask = left_mask
+game.goal_right_mask = right_mask
 
 #game.sound_back1 = lyd_back1
 
@@ -139,6 +149,10 @@ def menu():
             pygame.quit()
     display.blit(myfont.render("QUIT", 100, (255,255,255)), (1050,500+20))
 
+def reset_ball():
+    game.ball.speed_x = 0
+    game.ball.speed_y = 0
+    game.ball.position = [display_width/2-60,display_height/2-50]
 
 #Main game loop
 def game_loop():
@@ -159,7 +173,10 @@ def game_loop():
     ball_collision_t1 = game.ball_mask.overlap(game.t1_mask, ball_offset_t1)
     ball_collision_t2 = game.ball_mask.overlap(game.t2_mask, ball_offset_t2)
 
-
+    ball_offset_l =(int(game.ball.position[0] - (-170)), int(game.ball.position[1] - 210))
+    ball_offset_r =(int(game.ball.position[0] - 1095), int(game.ball.position[1] - 210))
+    goal_collision_left = game.ball_mask.overlap(game.goal_left_mask, ball_offset_l)
+    goal_collision_right = game.ball_mask.overlap(game.goal_right_mask, ball_offset_r)
 
 
 
@@ -190,6 +207,16 @@ def game_loop():
 
     game.ball.position[0] += game.ball.speed_x
     game.ball.position[1] += game.ball.speed_y
+
+    if goal_collision_left:
+        print("goal on blue")
+        game.score[0] += 1
+        reset_ball()
+
+    if goal_collision_right:
+        print("goal on red ")
+        game.score[1] += 1
+        reset_ball()
 
     # if ball_collision_t2:
     #     game.ball.position[0] = -1*game.ball.speed_x
@@ -289,8 +316,11 @@ def game_loop():
     pygame.draw.rect(display,GREEN,(25,5,game.t2.liv,5))
 
 #Mål - rektangler
-    goal_right = pygame.draw.rect(display,RED,(1275,161,5,395.5))
-    goal_left = pygame.draw.rect(display,RED,(2,161,5,395.5))
+    #pygame.draw.rect(display,RED,(1275,161,5,395.5))
+    #pygame.draw.rect(display,RED,(2,161,5,395.5))
+    display.blit(goal_left, (-170,210))
+    display.blit(goal_right, (1095,210))
+
 
 ##Test af mål collision
     #game.goal_left_mask = pygame.mask.from_surface(goal_left)
@@ -316,9 +346,7 @@ def game_loop():
     #    display.blit(bullet_image,(game.p1[0], game.p1[1]))
 
     if keys[pygame.K_0]:
-        game.ball.speed_x = 0
-        game.ball.speed_y = 0
-        game.ball.position = [display_width/2-60,display_height/2-50]
+        reset_ball()
 
 
 
