@@ -277,12 +277,18 @@ def game_loop():
     display.blit(game.ball_png, (game.ball.position[0], game.ball.position[1]))
     RED = (255,0,0)
     GREEN = (0,255,0)
+    White = (255,255,255)
+
+
     pygame.draw.rect(display,RED,(1075,5,200,5))
     pygame.draw.rect(display,GREEN,(1075,5,game.t1.liv,5))
 
     pygame.draw.rect(display,RED,(25,5,200,5))
     pygame.draw.rect(display,GREEN,(25,5,game.t2.liv,5))
 
+#Mål - rektangler
+    pygame.draw.rect(display,RED,(1275,161,5,395.5))
+    pygame.draw.rect(display,RED,(2,161,5,395.5))
 
 
 
