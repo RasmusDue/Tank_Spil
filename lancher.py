@@ -161,6 +161,8 @@ def game_loop():
 
 
 
+
+
 #Tjek om bolden rammer kanten
     if game.ball.position[0] < 0:
         game.ball.speed_x = -1*game.ball.speed_x #(game.ball.speed_x/2)+4
@@ -169,7 +171,7 @@ def game_loop():
 
     if game.ball.position[1] < 0:
         game.ball.speed_y = -1*game.ball.speed_y #(game.ball.speed_y/2)+4
-    if game.ball.position[1] > display_height - 50:
+    if game.ball.position[1] > display_height - 100:
         game.ball.speed_y = -1*game.ball.speed_y #(game.ball.speed_y/2)-4
 
 #Tjek om Tanks' rammer bolden
@@ -287,10 +289,11 @@ def game_loop():
     pygame.draw.rect(display,GREEN,(25,5,game.t2.liv,5))
 
 #Mål - rektangler
-    pygame.draw.rect(display,RED,(1275,161,5,395.5))
-    pygame.draw.rect(display,RED,(2,161,5,395.5))
+    goal_right = pygame.draw.rect(display,RED,(1275,161,5,395.5))
+    goal_left = pygame.draw.rect(display,RED,(2,161,5,395.5))
 
-
+##Test af mål collision
+    #game.goal_left_mask = pygame.mask.from_surface(goal_left)
 
     if game.ball.position[1] > 0 and game.ball.position[1] < 620:
         #game.objects.collision(game.red_ball, game.ball)

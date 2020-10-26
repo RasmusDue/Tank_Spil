@@ -39,6 +39,8 @@ class Game():
         self.objects.container.append(self.red_ball)
         self.objects.container.append(self.ball)
 
+        self.goal_left_mask = []
+        self.goal_right_mask = []
 
 class Tank():
     def __init__(self, color, position, tank):
