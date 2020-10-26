@@ -159,32 +159,45 @@ def game_loop():
     ball_collision_t1 = game.ball_mask.overlap(game.t1_mask, ball_offset_t1)
     ball_collision_t2 = game.ball_mask.overlap(game.t2_mask, ball_offset_t2)
 
-    game.ball.position[0] += game.ball.speed_x
-    game.ball.position[1] += game.ball.speed_y
+
 
 #Tjek om bolden rammer kanten
     if game.ball.position[0] < 0:
-        game.ball.speed_x = (game.ball.speed_x/2)+4
+        game.ball.speed_x = -1*game.ball.speed_x #(game.ball.speed_x/2)+4
     if game.ball.position[0] > display_width - 100:
-        game.ball.speed_x = (game.ball.speed_x/2)-4
+        game.ball.speed_x = -1*game.ball.speed_x #(game.ball.speed_x/2)-4
 
     if game.ball.position[1] < 0:
-        game.ball.speed_y = (game.ball.speed_y/2)+4
+        game.ball.speed_y = -1*game.ball.speed_y #(game.ball.speed_y/2)+4
     if game.ball.position[1] > display_height - 50:
-        game.ball.speed_y = (game.ball.speed_y/2)-4
+        game.ball.speed_y = -1*game.ball.speed_y #(game.ball.speed_y/2)-4
 
 #Tjek om Tanks' rammer bolden
+    # if ball_collision_t1 or ball_collision_t2:
+    #     #game.ball.speed_x = -1*game.ball.speed_x
+    #     #game.ball.speed_y = -1*game.ball.speed_y
+    #     print("collision")
+
     if ball_collision_t1:
-        game.ball.speed_x = -8
+        game.objects.collision(game.blue_ball, game.ball)
+        print("collision t1")
 
     if ball_collision_t2:
-        game.ball.speed_x = +8
+        game.objects.collision(game.red_ball, game.ball)
+        print("collision t2")
+
+    game.ball.position[0] += game.ball.speed_x
+    game.ball.position[1] += game.ball.speed_y
+
+    # if ball_collision_t2:
+    #     game.ball.position[0] = -1*game.ball.speed_x
+    #     game.ball.position[1] = -1*game.ball.speed_y
 
 #Tjek om bolden er indenfor målrammen
 
 
     if tank_collision:
-        print("Collision")
+        #print("Collision")
         #display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
         game.p1[0] -=  game.t1.speed
         game.p1[1] -=  game.t1.speed
@@ -280,22 +293,31 @@ def game_loop():
 
 
     if game.ball.position[1] > 0 and game.ball.position[1] < 620:
-        game.objects.collision(0)
+        #game.objects.collision(game.red_ball, game.ball)
         #game.ball.position[0] += game.ball.result_xy[0]
+        pass
     if game.ball.position[0] > 0 and game.ball.position[0] < 1180:
-        print("stop")
-        game.objects.collision(1)
+        #print("stop")
+        #game.objects.collision(game.blue_ball, game.ball)
+        pass
         #game.ball.position[1] += game.ball.result_xy[1]
-    print(game.ball.position)
+    #print(game.ball.position)
     #print("1- {} -1".format(game.objects.overlap))
 
-
+    print("Ball x: {} y: {}".format(game.ball.speed_x,game.ball.speed_y))
+    print("-")
+    #print("Blue x: {} y: {}".format(game.blue_ball.speed_x,game.blue_ball.speed_y))
+    #print("Red x: {} y: {}".format(game.red_ball.speed_x,game.red_ball.speed_y))
 
 #    if keys[pygame.K_RETURN]:
     #    display.blit(bullet_image,(game.p1[0], game.p1[1]))
 
-#    if keys[pygame.K_SPACE]:
-    #    display.blit(bullet_image,(game.p2[0], game.p2[1]))
+    if keys[pygame.K_0]:
+        game.ball.speed_x = 0
+        game.ball.speed_y = 0
+        game.ball.position = [display_width/2-60,display_height/2-50]
+
+
 
 
 while not done:
@@ -318,4 +340,4 @@ while not done:
             print("tilstand = 0")
 #pygame kommandoer til at vise grafikken og opdatere 60 gange i sekundet.
     pygame.display.update()
-    clock.tick(360)
+    clock.tick(60)
