@@ -77,12 +77,14 @@ ballx = display_width/2 - ball_rect.center[0]
 bally = display_height/2 - ball_rect.center[1]
 
 g_left = pygame.image.load('goalpost_left.png').convert_alpha()
-goal_left = pygame.transform.scale(g_left, (350, 300))
+goal_left = pygame.transform.scale(g_left, (20, 300))
 left_mask = pygame.mask.from_surface(goal_left)
+left_rect = goal_left.get_rect()
 
 g_right = pygame.image.load('goalpost_right.png').convert_alpha()
-goal_right = pygame.transform.scale(g_right, (350, 300))
+goal_right = pygame.transform.scale(g_right, (20, 300))
 right_mask = pygame.mask.from_surface(goal_right)
+right_rect = goal_right.get_rect()
 
 bullet_image = pygame.image.load("ball.png")
 bullet_image = pygame.transform.scale(bullet_image, (20,20))
@@ -173,10 +175,10 @@ def game_loop():
     ball_collision_t1 = game.ball_mask.overlap(game.t1_mask, ball_offset_t1)
     ball_collision_t2 = game.ball_mask.overlap(game.t2_mask, ball_offset_t2)
 
-    ball_offset_l =(int(game.ball.position[0] - (-170)), int(game.ball.position[1] - 210))
-    ball_offset_r =(int(game.ball.position[0] - 1095), int(game.ball.position[1] - 210))
-    goal_collision_left = game.ball_mask.overlap(game.goal_left_mask, ball_offset_l)
-    goal_collision_right = game.ball_mask.overlap(game.goal_right_mask, ball_offset_r)
+    goal_offset_l =(int(game.ball.position[0] - left_rect.center[0]), int(game.ball.position[1] - left_rect.center[1]))
+    goal_offset_r =(int(game.ball.position[0] - right_rect.center[0]), int(game.ball.position[1] - right_rect.center[0]))
+    goal_collision_left = game.ball_mask.overlap(game.goal_left_mask, goal_offset_l)
+    goal_collision_right = game.ball_mask.overlap(game.goal_right_mask, goal_offset_r)
 
 
 
@@ -318,8 +320,8 @@ def game_loop():
 #Mål - rektangler
     #pygame.draw.rect(display,RED,(1275,161,5,395.5))
     #pygame.draw.rect(display,RED,(2,161,5,395.5))
-    display.blit(goal_left, (-170,210))
-    display.blit(goal_right, (1095,210))
+    display.blit(goal_left, (2,210))
+    display.blit(goal_right, (1255,210))
 
 
 ##Test af mål collision
