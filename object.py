@@ -95,19 +95,21 @@ class Objects:
     #                     target.position[1] += result[1]
     #                     self.overlap.append(target)
 
-	def collision(self, x):
-		self.overlap.append(self.container[x])
-		while self.overlap:
-			source = self.overlap[0]
-			self.overlap.pop(0)
+	def collision(self, x, g_ball):
+		# self.overlap.append(self.container[x])
+		# while self.overlap:
+		# 	source = self.overlap[0]
+		# 	self.overlap.pop(0)
 
-			for index in range(1, len(self.container)):
-				target = self.container[index]
-				if target.id == source.id: continue
+			#for index in range(1, len(self.container)):
+                #target = self.container[index]
+			#if target.id == source.id: continue
 
-				result = source.hasOverlapped((target.position[0]+50, target.position[1]+50), 50)
-				if result:
+            #target = self.append(self.container[x])
 
-					target.position[0] += result[0]
-					target.position[1] += result[1]
-					self.overlap.append(target)
+		result = x.hasOverlapped((g_ball.position[0]+50, g_ball.position[1]+50), 50)
+		if result:
+			g_ball.speed_x = result[0]
+			g_ball.speed_y = result[1]
+        #print("x: {} y: {}".format(result[0],result[1]))
+			#self.overlap.append(target)
