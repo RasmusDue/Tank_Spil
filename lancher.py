@@ -273,7 +273,7 @@ def game_loop():
     pygame.draw.rect(display,RED,(25,5,200,5))
     pygame.draw.rect(display,GREEN,(25,5,game.t2.liv,5))
 
-
+#Mål - rektangler
     pygame.draw.rect(display,RED,(1275,161,5,395.5))
     pygame.draw.rect(display,RED,(2,161,5,395.5))
 
