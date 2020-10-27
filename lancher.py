@@ -180,6 +180,7 @@ def game_loop():
         print("countdown: 3 2 1")
         #
         #   Lav game countdown 3 2 1 Go!!!!
+        #   Skal lyde effekten fra rocket league
         #
         game.tank_move = True
 
