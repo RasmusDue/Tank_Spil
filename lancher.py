@@ -115,8 +115,6 @@ elif random_map == 1:
 #Game Menu
 def menu():
     display.blit(baggrund_menu,(0, 0))
-
-    #game.sound_back1.play(0)
     mouse = pygame.mouse.get_pos()
     #print(mouse)
     if 1050+200> mouse[0] > 1050 and 300+75 > mouse[1] > 300:
@@ -153,11 +151,6 @@ def menu():
             pygame.quit()
     display.blit(myfont.render("QUIT", 100, (255,255,255)), (1050,500+20))
 
-# def reset_ball():
-#     game.ball.speed_x = 0
-#     game.ball.speed_y = 0
-#     game.ball.position = [display_width/2-60,display_height/2-50]
-
 #Main game loop
 def game_loop():
     keys = pygame.key.get_pressed()
@@ -182,7 +175,13 @@ def game_loop():
     goal_collision_left = game.ball_mask.overlap(game.goal_left_mask, goal_offset_l)
     goal_collision_right = game.ball_mask.overlap(game.goal_right_mask, goal_offset_r)
 
-
+#Game countdown
+    if game.countdown:
+        print("countdown: 3 2 1")
+        #
+        #   Lav game countdown 3 2 1 Go!!!!
+        #
+        game.tank_move = True
 
 #Tjek om bolden rammer kanten
     if game.ball.position[0] < 0 and game.ball.position[1] < 200:
@@ -208,20 +207,18 @@ def game_loop():
         game.objects.collision(game.red_ball, game.ball)
         print("collision t2")
 
-#ball move and speed
+#ball gets speed
     game.ball.position[0] += game.ball.speed_x
     game.ball.position[1] += game.ball.speed_y
-    # mouse_p = pygame.mouse.get_pos()
-    # game.ball.position[0] = mouse_p[0]-50
-    # game.ball.position[1] = mouse_p[1]-50
+    # game.ball.position[0] = mouse[0]-50
+    # game.ball.position[1] = mouse[1]-50
 
 #blue team score goal
-    if game.ball.position[0] <= -50 and game.ball.position[1] > 250 and game.ball.position[1] < 400:
+    if game.ball.position[0] <= -47 and game.ball.position[1] > 250 and game.ball.position[1] < 400:
         game.goal(1)
 #red team score goal
-    if game.ball.position[0] >= 1220 and game.ball.position[1] > 250 and game.ball.position[1] < 400:
+    if game.ball.position[0] >= 1217 and game.ball.position[1] > 250 and game.ball.position[1] < 400:
         game.goal(0)
-
 
     if tank_collision:
         game.p1[0] -=  game.t1.speed
@@ -236,7 +233,7 @@ def game_loop():
     # if game.t2.liv <=0:
     #     display.blit(myfont.render("RED VICTORY", 50, red), (display_width/2-180,100))
 
-    #Tank controls
+#Tank controls
     if game.tank_move:
         #tank 1 controls
         if keys[pygame.K_LEFT] and game.p1[0]>0:

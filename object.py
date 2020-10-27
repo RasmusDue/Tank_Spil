@@ -9,7 +9,8 @@ display_height = 720
 class Game():
     def __init__(self):
         self.tilstand = 0
-        self.tank_move = True
+        self.tank_move = False
+        self.countdown = True
         self.score = [0, 0]
         self.blue = (0, 0, 255)
         self.red = (200, 0 , 0)
