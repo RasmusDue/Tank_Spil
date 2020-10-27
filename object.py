@@ -9,6 +9,7 @@ display_height = 720
 class Game():
     def __init__(self):
         self.tilstand = 0
+        self.tank_move = True
         self.score = [0, 0]
         self.blue = (0, 0, 255)
         self.red = (200, 0 , 0)
@@ -41,6 +42,23 @@ class Game():
 
         self.goal_left_mask = []
         self.goal_right_mask = []
+
+    def reset_ball(self):
+        self.ball.speed_x = 0
+        self.ball.speed_y = 0
+        self.ball.position = [display_width/2-60,display_height/2-50]
+        self.p1 = [1135,720/2-50]
+        self.p2 = [45,720/2-50]
+        self.angle1 = 90
+        self.angle2 = -90
+
+    def goal(self, team):
+    #team 0 = red and team 1 = blue
+        if team == 0:
+            self.score[0] += 1
+        elif team == 1:
+            self.score[1] += 1
+        self.reset_ball()
 
 class Tank():
     def __init__(self, color, position, tank):

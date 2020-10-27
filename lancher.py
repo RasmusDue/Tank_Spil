@@ -24,9 +24,11 @@ myfont2 = pygame.font.SysFont("arial", 42)
 white = (255, 255, 255)
 black = (0, 0, 0)
 blue = (0, 0, 255)
-red = (200, 0 , 0)
+red = (255, 0 , 0)
+green = (0,255,0)
 ball=False
 ball_speed = [1,1]
+
 
 
 #Sounds
@@ -151,10 +153,10 @@ def menu():
             pygame.quit()
     display.blit(myfont.render("QUIT", 100, (255,255,255)), (1050,500+20))
 
-def reset_ball():
-    game.ball.speed_x = 0
-    game.ball.speed_y = 0
-    game.ball.position = [display_width/2-60,display_height/2-50]
+# def reset_ball():
+#     game.ball.speed_x = 0
+#     game.ball.speed_y = 0
+#     game.ball.position = [display_width/2-60,display_height/2-50]
 
 #Main game loop
 def game_loop():
@@ -183,21 +185,20 @@ def game_loop():
 
 
 #Tjek om bolden rammer kanten
-    if game.ball.position[0] < 0:
-        game.ball.speed_x = -1*game.ball.speed_x #(game.ball.speed_x/2)+4
-    if game.ball.position[0] > display_width - 100:
-        game.ball.speed_x = -1*game.ball.speed_x #(game.ball.speed_x/2)-4
+    if game.ball.position[0] < 0 and game.ball.position[1] < 200:
+        game.ball.speed_x = -1*game.ball.speed_x
+    if game.ball.position[0] < 0 and game.ball.position[1] > 420:
+        game.ball.speed_x = -1*game.ball.speed_x
+
+    if game.ball.position[0] > display_width - 100 and game.ball.position[1] < 200:
+        game.ball.speed_x = -1*game.ball.speed_x
+    if game.ball.position[0] > display_width - 100 and game.ball.position[1] > 420:
+        game.ball.speed_x = -1*game.ball.speed_x
 
     if game.ball.position[1] < 0:
-        game.ball.speed_y = -1*game.ball.speed_y #(game.ball.speed_y/2)+4
+        game.ball.speed_y = -1*game.ball.speed_y
     if game.ball.position[1] > display_height - 100:
-        game.ball.speed_y = -1*game.ball.speed_y #(game.ball.speed_y/2)-4
-
-#Tjek om Tanks' rammer bolden
-    # if ball_collision_t1 or ball_collision_t2:
-    #     #game.ball.speed_x = -1*game.ball.speed_x
-    #     #game.ball.speed_y = -1*game.ball.speed_y
-    #     print("collision")
+        game.ball.speed_y = -1*game.ball.speed_y
 
     if ball_collision_t1:
         game.objects.collision(game.blue_ball, game.ball)
@@ -207,29 +208,22 @@ def game_loop():
         game.objects.collision(game.red_ball, game.ball)
         print("collision t2")
 
+#ball move and speed
     game.ball.position[0] += game.ball.speed_x
     game.ball.position[1] += game.ball.speed_y
+    # mouse_p = pygame.mouse.get_pos()
+    # game.ball.position[0] = mouse_p[0]-50
+    # game.ball.position[1] = mouse_p[1]-50
 
-    if goal_collision_left:
-        print("goal on blue")
-        game.score[0] += 1
-        reset_ball()
-
-    if goal_collision_right:
-        print("goal on red ")
-        game.score[1] += 1
-        reset_ball()
-
-    # if ball_collision_t2:
-    #     game.ball.position[0] = -1*game.ball.speed_x
-    #     game.ball.position[1] = -1*game.ball.speed_y
-
-#Tjek om bolden er indenfor målrammen
+#blue team score goal
+    if game.ball.position[0] <= -50 and game.ball.position[1] > 250 and game.ball.position[1] < 400:
+        game.goal(1)
+#red team score goal
+    if game.ball.position[0] >= 1220 and game.ball.position[1] > 250 and game.ball.position[1] < 400:
+        game.goal(0)
 
 
     if tank_collision:
-        #print("Collision")
-        #display.blit(myfont.render("Tank Collision", 50, red), (display_width/2-180,100))
         game.p1[0] -=  game.t1.speed
         game.p1[1] -=  game.t1.speed
         game.p2[0] +=  game.t2.speed
@@ -237,18 +231,13 @@ def game_loop():
         game.t1.liv -= random.randint(1,8)
         game.t2.liv -= random.randint(1,8)
 
-    if game.t1.liv <=0:
-        display.blit(myfont.render("BLUE VICTORY", 50, blue), (display_width/2-180,100))
-        #pygame.time.wait(5000)
-        #game.tilstand = 0
-    if game.t2.liv <=0:
-        display.blit(myfont.render("RED VICTORY", 50, red), (display_width/2-180,100))
-        #pygame.time.delay(5000)
-        #game.tilstand = 0
-
+    # if game.t1.liv <=0:
+    #     display.blit(myfont.render("BLUE VICTORY", 50, blue), (display_width/2-180,100))
+    # if game.t2.liv <=0:
+    #     display.blit(myfont.render("RED VICTORY", 50, red), (display_width/2-180,100))
 
     #Tank controls
-    if not tank_collision or tank_collision:
+    if game.tank_move:
         #tank 1 controls
         if keys[pygame.K_LEFT] and game.p1[0]>0:
             game.p1[0] -= game.t1.speed
@@ -292,81 +281,38 @@ def game_loop():
         if keys[pygame.K_d] and keys[pygame.K_w]:
             game.angle2 = -45
 
-
     #Draw tanks & ball in game
     game.red_ball.position = [int(game.p2[0] + 50), int(game.p2[1] + 50)]
     game.blue_ball.position = [int(game.p1[0] + 50), int(game.p1[1] + 50)]
-    #print(game.ball.position)
-    #pygame.draw.circle(display, blue, (int(game.p1[0]+50), int(game.p1[1]+50)), 50, 0)
+
     display.blit(tank1_rotate, (game.p1[0], game.p1[1]))
-    #pygame.draw.circle(display, white, (int(game.p1[0]), int(game.p1[1])), 10, 0)
-
-
-    #pygame.draw.circle(display, red, (game.red_ball.position[0], game.red_ball.position[1]), 50, 0)
     display.blit(tank2_rotate, (game.p2[0], game.p2[1]))
-    #display.blit(game.ball_png, (game.ball.position[0], game.ball.position[1]))
     display.blit(game.ball_png, (game.ball.position[0], game.ball.position[1]))
-    RED = (255,0,0)
-    GREEN = (0,255,0)
-    White = (255,255,255)
 
-
-    pygame.draw.rect(display,RED,(1075,5,200,5))
-    pygame.draw.rect(display,GREEN,(1075,5,game.t1.liv,5))
-
-    pygame.draw.rect(display,RED,(25,5,200,5))
-    pygame.draw.rect(display,GREEN,(25,5,game.t2.liv,5))
-
+    pygame.draw.rect(display,red,(1075,5,200,5))
+    pygame.draw.rect(display,green,(1075,5,game.t1.liv,5))
+    pygame.draw.rect(display,red,(25,5,200,5))
+    pygame.draw.rect(display,green,(25,5,game.t2.liv,5))
 #Mål - rektangler
-    #pygame.draw.rect(display,RED,(1275,161,5,395.5))
-    #pygame.draw.rect(display,RED,(2,161,5,395.5))
     display.blit(goal_left, (2,210))
     display.blit(goal_right, (1255,210))
 
 
-##Test af mål collision
-    #game.goal_left_mask = pygame.mask.from_surface(goal_left)
-
-    if game.ball.position[1] > 0 and game.ball.position[1] < 620:
-        #game.objects.collision(game.red_ball, game.ball)
-        #game.ball.position[0] += game.ball.result_xy[0]
-        pass
-    if game.ball.position[0] > 0 and game.ball.position[0] < 1180:
-        #print("stop")
-        #game.objects.collision(game.blue_ball, game.ball)
-        pass
-        #game.ball.position[1] += game.ball.result_xy[1]
-    #print(game.ball.position)
-    #print("1- {} -1".format(game.objects.overlap))
-
     print("Ball x: {} y: {}".format(game.ball.speed_x,game.ball.speed_y))
     print("-")
-    #print("Blue x: {} y: {}".format(game.blue_ball.speed_x,game.blue_ball.speed_y))
-    #print("Red x: {} y: {}".format(game.red_ball.speed_x,game.red_ball.speed_y))
-
-#    if keys[pygame.K_RETURN]:
-    #    display.blit(bullet_image,(game.p1[0], game.p1[1]))
 
     if keys[pygame.K_0]:
-        reset_ball()
-
-
-
+        game.reset_ball()
 
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             done = True
-
-        #keys = pygame.key.get_pressed()
-        # if keys[pygame.K_ESCAPE]:
-        #     game.tilstand = 0
     #game_loop()
     if game.tilstand == 0:
-        #print("Tilstand 0")
         menu()
+
     elif game.tilstand == 1:
-        #print("Tilstand 1")
         game_loop()
         if (event.type == pygame.KEYDOWN and event.key == pygame.K_m):
             game.tilstand = 0
