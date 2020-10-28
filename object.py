@@ -35,6 +35,8 @@ class Game():
         self.main_sound_volume = 0
         self.sound_crowd = []
         self.sound_back1 = []
+        self.sound_countdown1 = []
+        self.sound_countdown2 = []
 
         self.objects = Objects()
         self.objects.container.append(self.blue_ball)

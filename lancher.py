@@ -28,11 +28,14 @@ red = (255, 0 , 0)
 green = (0,255,0)
 ball=False
 ball_speed = [1,1]
+count = 0
 
 
 
 #Sounds
 lyd_crowd = pygame.mixer.Sound("sounds/Crowd_0001.wav")
+#countdown1 = pygame.mixer.Sound("sounds/Countdown_0001.wav")
+countdown2 = pygame.mixer.Sound("sounds\SFX_UI_Countdown_0006.ogg")
 #lyd_back1 = pygame.mixer.music.load("sounds/main1.wav")
 
 #pygame.mixer.music.load("sounds/main1.wav")
@@ -91,12 +94,20 @@ right_rect = goal_right.get_rect()
 bullet_image = pygame.image.load("ball.png")
 bullet_image = pygame.transform.scale(bullet_image, (20,20))
 
+#countdown images
+image_one = pygame.image.load('1.png').convert_alpha()
+image_two = pygame.image.load('2.png').convert_alpha()
+image_three = pygame.image.load('3.png').convert_alpha()
+image_go = pygame.image.load('GO.png').convert_alpha()
+
 #game
 game = Game()
 game.tank1 = tank_png1
 game.tank2 = tank_png2
 game.ball_png = ball_png
 game.sound_crowd = lyd_crowd
+#game.sound_countdown1 = countdown1
+game.sound_countdown2 = countdown2
 game.pball = [ballx, bally]
 game.ball_mask = ball_mask
 game.goal_left_mask = left_mask
@@ -111,6 +122,38 @@ if random_map == 0:
     game.map = map1
 elif random_map == 1:
     game.map = map2
+
+class Orb_sprite():
+    def __init__(self):
+        self.sprite_images = []
+        self.frames = 4
+        image = pygame.image.load('countdown_sprite.png')
+        image = image.convert_alpha()
+        spriteWidth = image.get_width() // self.frames
+        spriteHeight = image.get_height()
+        x = 0
+        for i in range(self.frames):
+            frameSurf = pygame.Surface((spriteWidth, spriteHeight), pygame.SRCALPHA, 32)
+            frameSurf.blit(image, (x, 0))
+            self.sprite_images.append(frameSurf.copy())
+            x -= spriteWidth
+        self.anim_count = 0
+        self.anim_frame = 0
+
+    def update(self):
+        # if self.anim_frame == 0:
+        #   game.sound_countdown2.play(0)
+        self.anim_count += 1
+        if self.anim_count >= 40:
+            if self.anim_frame <= 2:
+                game.sound_countdown2.play(0)
+            self.anim_count = 0
+            self.anim_frame = (self.anim_frame + 1) % self.frames
+
+    def get_current_image(self):
+        return self.sprite_images[self.anim_frame]
+
+orb_sprite = Orb_sprite()
 
 #Game Menu
 def menu():
@@ -175,14 +218,7 @@ def game_loop():
     goal_collision_left = game.ball_mask.overlap(game.goal_left_mask, goal_offset_l)
     goal_collision_right = game.ball_mask.overlap(game.goal_right_mask, goal_offset_r)
 
-#Game countdown
-    if game.countdown:
-        print("countdown: 3 2 1")
-        #
-        #   Lav game countdown 3 2 1 Go!!!!
-        #   Skal lyde effekten fra rocket league
-        #
-        game.tank_move = True
+
 
 #Tjek om bolden rammer kanten
     if game.ball.position[0] < 0 and game.ball.position[1] < 200:
@@ -301,6 +337,21 @@ def game_loop():
 
     if keys[pygame.K_0]:
         game.reset_ball()
+
+#Game countdown
+#go billede er px:249 bredt
+    if game.countdown:
+        orb_sprite.update()
+        print("countdown: 3 2 1")
+        #display.blit(image_three, (display_width/2, display_height/2))
+        #game.sound_countdown2.play(0)
+        display.blit(orb_sprite.get_current_image(), (display_width/2-125, display_height/2-110))
+        #   Lav game countdown 3 2 1 Go!!!!
+        #   Skal lyde effekten fra rocket league
+        # count += 1
+        # if count >= 160:
+        #     game.tank_move = True
+        #     game.countdown = False
 
 while not done:
     for event in pygame.event.get():
