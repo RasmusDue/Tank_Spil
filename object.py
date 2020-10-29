@@ -46,6 +46,9 @@ class Game():
         self.goal_left_mask = []
         self.goal_right_mask = []
 
+        self.count_image = 0
+        self.frame_image = 0
+
     def reset_ball(self):
         self.ball.speed_x = 0
         self.ball.speed_y = 0

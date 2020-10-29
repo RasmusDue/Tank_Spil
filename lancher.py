@@ -28,13 +28,11 @@ red = (255, 0 , 0)
 green = (0,255,0)
 ball=False
 ball_speed = [1,1]
-count = 0
-
 
 
 #Sounds
 lyd_crowd = pygame.mixer.Sound("sounds/Crowd_0001.wav")
-#countdown1 = pygame.mixer.Sound("sounds/Countdown_0001.wav")
+#countdown1 = pygame.mixer.Sound("sounds\SFX_UI_Countdown_0001.ogg")
 countdown2 = pygame.mixer.Sound("sounds\SFX_UI_Countdown_0006.ogg")
 #lyd_back1 = pygame.mixer.music.load("sounds/main1.wav")
 
@@ -113,6 +111,9 @@ game.ball_mask = ball_mask
 game.goal_left_mask = left_mask
 game.goal_right_mask = right_mask
 
+
+game.count_image = 0
+game.frame_image = 0
 #game.sound_back1 = lyd_back1
 
 #random map
@@ -253,9 +254,13 @@ def game_loop():
 #blue team score goal
     if game.ball.position[0] <= -47 and game.ball.position[1] > 250 and game.ball.position[1] < 400:
         game.goal(1)
+        game.countdown = True
+        game.frame_image = 0
 #red team score goal
     if game.ball.position[0] >= 1217 and game.ball.position[1] > 250 and game.ball.position[1] < 400:
         game.goal(0)
+        game.countdown = True
+        game.frame_image = 0
 
     if tank_collision:
         game.p1[0] -=  game.t1.speed
@@ -339,19 +344,29 @@ def game_loop():
         game.reset_ball()
 
 #Game countdown
-#go billede er px:249 bredt
     if game.countdown:
+        game.tank_move = False
         orb_sprite.update()
         print("countdown: 3 2 1")
-        #display.blit(image_three, (display_width/2, display_height/2))
-        #game.sound_countdown2.play(0)
-        display.blit(orb_sprite.get_current_image(), (display_width/2-125, display_height/2-110))
-        #   Lav game countdown 3 2 1 Go!!!!
-        #   Skal lyde effekten fra rocket league
-        # count += 1
-        # if count >= 160:
-        #     game.tank_move = True
-        #     game.countdown = False
+        if game.count_image == 0:
+            game.sound_countdown2.play(0)
+        game.count_image += 1
+        if game.count_image >= 40:
+            if game.frame_image <= 2:
+                game.sound_countdown2.play(0)
+            game.count_image = 0
+            game.frame_image += 1
+        if game.frame_image == 0:
+            display.blit(image_three, (display_width/2-60, display_height/2-82))
+        if game.frame_image == 1:
+            display.blit(image_two, (display_width/2-60, display_height/2-82))
+        if game.frame_image == 2:
+            display.blit(image_one, (display_width/2-60, display_height/2-82))
+        if game.frame_image == 3:
+            display.blit(image_go, (display_width/2-60, display_height/2-82))
+        if game.frame_image == 4:
+            game.countdown = False
+            game.tank_move = True
 
 while not done:
     for event in pygame.event.get():
